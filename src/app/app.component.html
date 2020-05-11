@@ -1,16 +1,2 @@
-<div class="main-screen">
-  <ngx-graph [nodes]="[{ id: '1', label: 'kek' }, { id: '2', 'label': 'oumaigad' }, { id: '3', label: 'secret stuff' }, { id: '4', label: 'ragaisis' }]" [links]="[{ id: 'oof', source: '1', target: '2' }, { id: 'kekistan2', source: '1', target: '3' }, { id: 'wololo', source: '2', target: '4'}]" [draggingEnabled]="false">
-    <ng-template #nodeTemplate let-node>
-      <svg:g class="node" (click)="printId(node.id)">
-        <svg:rect
-          [attr.width]="node.dimension.width"
-          [attr.height]="node.dimension.height"
-          [attr.fill]="node.data.color"
-        />
-        <svg:text dominant-baseline="middle" [attr.x]="10" [attr.y]="node.dimension.height / 2">
-          {{node.label}}
-        </svg:text>
-      </svg:g>
-    </ng-template>
-  </ngx-graph>
-</div>
+<app-login *ngIf="!isLoggedIn"></app-login>
+<app-main-container *ngIf="isLoggedIn"></app-main-container>
