@@ -9,6 +9,6 @@ export class AppComponent implements OnInit {
   public isLoggedIn: boolean;
 
   ngOnInit() {
-    this.isLoggedIn = false;
+    this.isLoggedIn = true;
   }
 }

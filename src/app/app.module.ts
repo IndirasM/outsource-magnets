@@ -14,12 +14,24 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
+import { TrainingGraphComponent } from './main-container/training-graph/training-graph.component';
+import { TrainingCalendarComponent } from './main-container/training-calendar/training-calendar.component';
+import { SettingsComponent } from './main-container/settings/settings.component';
+import { AddTrainingComponent } from './main-container/add-training/add-training.component';
+import { TrainingDetailsComponent } from './main-container/training-graph/training-details/training-details.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    MainContainerComponent
+    MainContainerComponent,
+    TrainingGraphComponent,
+    TrainingCalendarComponent,
+    SettingsComponent,
+    AddTrainingComponent,
+    TrainingDetailsComponent,
+    NotFoundComponent
   ],
   imports: [
     BrowserModule,
