@@ -20,6 +20,9 @@ import { SettingsComponent } from './main-container/settings/settings.component'
 import { AddTrainingComponent } from './main-container/add-training/add-training.component';
 import { TrainingDetailsComponent } from './main-container/training-graph/training-details/training-details.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { FlexLayoutModule } from '@angular/flex-layout'
 
 @NgModule({
   declarations: [
@@ -43,7 +46,10 @@ import { NotFoundComponent } from './not-found/not-found.component';
     MatButtonModule,
     MatSidenavModule,
     MatIconModule,
-    MatListModule
+    MatListModule,
+    MatFormFieldModule,
+    MatInputModule,
+    FlexLayoutModule
   ],
   providers: [],
   bootstrap: [AppComponent]
