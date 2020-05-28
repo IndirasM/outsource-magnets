@@ -1,5 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+//import { Response } from '@angular/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -16,6 +19,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { TrainingGraphComponent } from './main-container/training-graph/training-graph.component';
 import { TrainingCalendarComponent } from './main-container/training-calendar/training-calendar.component';
+import { TrainingTopicComponent } from './main-container/training-topic/training-topic.component';
 import { SettingsComponent } from './main-container/settings/settings.component';
 import { AddTrainingComponent } from './main-container/add-training/add-training.component';
 import { TrainingDetailsComponent } from './main-container/training-graph/training-details/training-details.component';
@@ -25,7 +29,6 @@ import { MatInputModule } from '@angular/material/input';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
-import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -49,6 +52,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     AppComponent,
     LoginComponent,
     MainContainerComponent,
+    TrainingTopicComponent,
     TrainingGraphComponent,
     TrainingCalendarComponent,
     SettingsComponent,
@@ -59,7 +63,9 @@ import { MatDialogModule } from '@angular/material/dialog';
     TeamDetailsComponent
   ],
   imports: [
+    ReactiveFormsModule,
     BrowserModule,
+    FormsModule,
     AppRoutingModule,
     NgxGraphModule,
     BrowserAnimationsModule,

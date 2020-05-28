@@ -1,0 +1,95 @@
+.sidenav-container {
+  height: 100%;
+}
+
+.sidenav {
+  width: 200px;
+}
+
+.sidenav .mat-toolbar {
+  background: inherit;
+}
+
+.mat-toolbar.mat-primary {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+input {
+  color: white;
+  outline: none;
+  background: inherit;
+  background-color: #424242;
+  margin: 8px 0;
+  box-sizing: border-box;
+  border: none;
+  border-bottom: 2px;
+  padding: 12px 12px 12px 12px;
+  width: 100%;
+}
+
+input[type=date] {
+  width: 50%;
+}
+
+#description {
+  height: 100px;
+  padding-bottom: 75px;
+}
+
+input[type=text]::placeholder, input[type=date]::placeholder {
+  text-align: left;
+}
+
+.container {
+  margin-left: 20px;
+  margin-top: 20px;
+  max-width: 500px;
+}
+
+.form-group {
+  min-width: 500px;
+  max-width: 1000px;
+  //margin: auto;
+}
+
+.button {
+  border-radius: 25px;
+  border: none;
+  outline: none;
+  color: white;
+  padding: 16px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+  float: right;
+  justify-content: flex-end;
+}
+
+.ok {
+  background-color: white;
+  color: black;
+  border: 2px solid #4CAF50;
+}
+
+.ok:hover {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.cancel {
+  background-color: white;
+  color: black;
+  border: 2px solid #f44336;
+}
+
+.cancel:hover {
+  background-color: #f44336;
+  color: white;
+}
+
