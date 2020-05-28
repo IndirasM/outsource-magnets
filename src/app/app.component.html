@@ -1,2 +1,2 @@
-<app-login *ngIf="!isLoggedIn" (login)="logIn()"></app-login>
-<app-main-container *ngIf="isLoggedIn"></app-main-container>
+<app-login *ngIf="!isLoggedIn" (login)="logIn($event)"></app-login>
+<app-main-container *ngIf="isLoggedIn" (logout)="logOut()"></app-main-container>
