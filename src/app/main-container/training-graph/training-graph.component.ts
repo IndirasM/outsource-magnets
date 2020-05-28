@@ -11,9 +11,4 @@ export class TrainingGraphComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
-  printId(id) {
-    console.log(id);
-  }
-
 }
