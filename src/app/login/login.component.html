@@ -1,1 +1,14 @@
-login
+<div class="container">
+    <div fxLayout="column" fxLayoutAlign="center center">
+        <h1 style="margin-top: 20rem;">Welcome to the learning day logging system</h1>
+        <mat-form-field>
+            <mat-label>Email</mat-label>
+            <input matInput type="email">
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Password</mat-label>
+            <input matInput type="password">
+        </mat-form-field>
+        <button mat-raised-button color="primary" (click)="logIn()">Log in</button>
+    </div>
+</div>
