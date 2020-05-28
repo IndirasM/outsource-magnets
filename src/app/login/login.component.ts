@@ -1,4 +1,5 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { UserCredentials } from '../types';
 
 @Component({
   selector: 'app-login',
@@ -8,6 +9,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 export class LoginComponent implements OnInit {
 
   @Output() login = new EventEmitter();
+  user = new UserCredentials();
 
   constructor() { }
 
@@ -15,6 +17,6 @@ export class LoginComponent implements OnInit {
   }
 
   logIn() {
-    this.login.emit();
+    this.login.emit(this.user);
   }
 }
