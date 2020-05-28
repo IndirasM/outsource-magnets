@@ -1,1 +1,104 @@
-<p>training-calendar works!</p>
+<section class="flex-line-container">
+  <div class="view-date-container">
+    <h3 class="calendar-header-text">{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</h3>
+  </div>
+</section>
+<section class="flex-line-container">
+  <div class="btn-group-container">
+    <button mat-raised-button
+            color="primary"
+            mwlCalendarPreviousView
+            [view]="view"
+            [(viewDate)]="viewDate"
+            (viewDateChange)="closeOpenMonthViewDay()"
+    >
+      Previous
+    </button>
+    <button class="btn-diff" mat-raised-button
+            mwlCalendarToday
+            [(viewDate)]="viewDate"
+    >
+      Today
+    </button>
+    <button mat-raised-button
+            color="primary"
+            mwlCalendarNextView
+            [view]="view"
+            [(viewDate)]="viewDate"
+            (viewDateChange)="closeOpenMonthViewDay()"
+    >
+      Next
+    </button>
+  </div>
+</section>
+<!--  <section class="flex-line-container">
+  <div class="btn-group-container">
+    <button mat-raised-button
+            color="primary"
+            (click)="setView(CalendarView.Month)"
+            [class.active]="view === CalendarView.Month"
+    >
+      Month
+    </button>
+    <button class="btn-diff" mat-raised-button
+            (click)="setView(CalendarView.Week)"
+            [class.active]="view === CalendarView.Week"
+    >
+      Week
+    </button>
+    <button mat-raised-button
+            color="primary"
+            (click)="setView(CalendarView.Day)"
+            [class.active]="view === CalendarView.Day"
+    >
+      Day
+    </button>
+  </div>
+</section>-->
+<span class="calendar-wrapper">
+  <div [ngSwitch]="view">
+    <mwl-calendar-month-view
+      *ngSwitchCase="CalendarView.Month"
+      [viewDate]="viewDate"
+      [events]="events"
+      [refresh]="refresh"
+      [activeDayIsOpen]="activeDayIsOpen"
+      (dayClicked)="dayClicked($event.day)"
+      (eventClicked)="handleEvent('Clicked', $event.event)"
+      (eventTimesChanged)="eventTimesChanged($event)"
+    >
+    </mwl-calendar-month-view>
+    <!--<mwl-calendar-week-view
+      *ngSwitchCase="CalendarView.Week"
+      [viewDate]="viewDate"
+      [events]="events"
+      [refresh]="refresh"
+      (eventClicked)="handleEvent('Clicked', $event.event)"
+      (eventTimesChanged)="eventTimesChanged($event)"
+    >
+    </mwl-calendar-week-view>
+    <mwl-calendar-day-view
+      *ngSwitchCase="CalendarView.Day"
+      [viewDate]="viewDate"
+      [events]="events"
+      [refresh]="refresh"
+      (eventClicked)="handleEvent('Clicked', $event.event)"
+      (eventTimesChanged)="eventTimesChanged($event)"
+    >
+    </mwl-calendar-day-view>-->
+  </div>
+</span>
+<div class="flex-button-container">
+  <a [routerLink]="'/add-training'"><button class="new-L-D-btn" mat-raised-button> Add New Learning Day</button></a>
+</div>
+<mat-divider></mat-divider>
+<div class="flex-p-container">
+  <p>Employees:</p>
+</div>
+<div class="flex-checkbox-container" >
+  <div class="checkbox-container" *ngFor="let employee of uniqueEmployees">
+    <mat-checkbox (click)="changeValue(employee.employeeId)">{{employee.employeeName}}</mat-checkbox>
+  </div>
+</div>
+
+
