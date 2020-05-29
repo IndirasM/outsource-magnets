@@ -29,6 +29,9 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { HttpClientModule } from '@angular/common/http';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator'; 
+import { MatDividerModule } from '@angular/material/divider'; 
 
 @NgModule({
   declarations: [
@@ -60,6 +63,9 @@ import { HttpClientModule } from '@angular/common/http';
     CommonModule,
     MatCheckboxModule,
     HttpClientModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatDividerModule,
     CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory })
   ],
   providers: [],
