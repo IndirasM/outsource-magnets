@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
-import { GraphService } from "src/app/graph.service";
-import { UnmappedEntity, GraphLink, GraphEntity } from "src/app/types";
+import { GraphService } from "../../graph.service";
+import { UnmappedEntity, GraphLink, GraphEntity } from "../../types";
 
 @Component({
   selector: "app-training-graph",
@@ -21,22 +21,16 @@ export class TrainingGraphComponent implements OnInit {
   }
 
   mapEntities(res: UnmappedEntity[]) {
-    res.forEach((item) => {
-      this.entities.push({
+    this.entities = res.map((item) => ({
         id: `${item.id}`,
         label: item.name,
-      });
-    });
+    }));
   }
 
   mapLinks(res: UnmappedEntity[]) {
-    res.forEach((item) => {
-      if (item.parentId) {
-        this.links.push({
-          source: item.parentId,
-          target: item.id,
-        });
-      }
-    });
+    this.links = res.map((item) => ({
+      source: item.parentId,
+      target: item.id
+    }));
   }
 }
