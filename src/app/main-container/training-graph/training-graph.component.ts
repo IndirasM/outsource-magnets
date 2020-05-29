@@ -21,22 +21,16 @@ export class TrainingGraphComponent implements OnInit {
   }
 
   mapEntities(res: UnmappedEntity[]) {
-    res.forEach((item) => {
-      this.entities.push({
+    this.entities = res.map((item) => ({
         id: `${item.id}`,
         label: item.name,
-      });
-    });
+    }));
   }
 
   mapLinks(res: UnmappedEntity[]) {
-    res.forEach((item) => {
-      if (item.parentId) {
-        this.links.push({
-          source: item.parentId,
-          target: item.id,
-        });
-      }
-    });
+    this.links = res.filter(item => !!item.parentId).map((item) => ({
+      source: item.parentId,
+      target: item.id
+    }));
   }
 }
