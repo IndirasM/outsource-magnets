@@ -1,5 +1,5 @@
 <div class="graph-container">
-    <ngx-graph [nodes]="[{ id: '1', label: 'kek' }, { id: '2', 'label': 'oumaigad' }, { id: '3', label: 'secret stuff' }, { id: '4', label: 'ragaisis' }]" [links]="[{ id: 'oof', source: '1', target: '2' }, { id: 'kekistan2', source: '1', target: '3' }, { id: 'wololo', source: '2', target: '4'}]" [draggingEnabled]="false">
+    <ngx-graph [nodes]="entities" [links]="links" [draggingEnabled]="false">
       <ng-template #nodeTemplate let-node>
         <svg:g class="node" [routerLink]="['/details', node.id]">
           <svg:rect
