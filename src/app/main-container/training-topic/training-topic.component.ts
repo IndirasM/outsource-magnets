@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Validators, FormBuilder, FormGroup } from '@angular/forms';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Validators, FormBuilder, FormGroup, FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 @Component({
   selector: 'app-training-topic',
@@ -38,24 +37,18 @@ export class TrainingTopicComponent implements OnInit {
   /////////////////////////////////////////
 
   userForm: any;
-
+  date = new FormControl(new Date());
+  serializedDate = new FormControl((new Date()).toISOString());
   name = 'Angular 5';
-  subscriptionForm: FormGroup;
+  topicForm: FormGroup;
   user: any;
   model: any;
 
   constructor(private fb: FormBuilder) {
-    this.subscriptionForm = fb.group({
+    this.topicForm = fb.group({
       name: ['', Validators.required],
       description: ['', Validators.required],
       date: ['', Validators.required],
-    });
-  }
-
-  createForm() {
-    //form control name should match with User class property name
-    this.userForm = this.fb.group({
-      name: ['', Validators.required]
     });
   }
 
@@ -65,7 +58,7 @@ export class TrainingTopicComponent implements OnInit {
   OnSubmit() {
 
 
-    this.user = this.subscriptionForm.value;
+    this.user = this.topicForm.value;
     console.log(this.user);
   }
 }

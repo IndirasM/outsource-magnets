@@ -11,6 +11,7 @@ import { TrainingDetailsComponent } from './main-container/training-graph/traini
 import { AuthGuard } from './auth.guard';
 import { TeamsComponent } from './main-container/teams/teams.component';
 import {TeamDetailsComponent} from "./main-container/teams/team-details/team-details.component";
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -28,7 +29,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes), FormsModule, ReactiveFormsModule],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}
