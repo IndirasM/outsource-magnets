@@ -7,9 +7,9 @@
         </div>
     </div>
     
-    <div fxLayout="row" style="margin-top: 1%;">
-        <div fxFlex="50">
-            <h3>People, who completed the training</h3>
+    <div fxLayout.sm="column" fxLayout="row">
+        <div fxFlex="50" style="margin-top: 1%;">
+            <h3>People, who trained</h3>
             <div class="mat-elevation-z8">
                 <table mat-table [dataSource]="dataSource">
                   <ng-container matColumnDef="name">
@@ -28,8 +28,8 @@
             </div>
         </div>
         <div fxFlex="5"></div>
-        <div fxFlex="50">
-            <h3>Teams, which have trained people</h3>
+        <div fxFlex="50" style="margin-top: 1%;">
+            <h3>Teams, which trained</h3>
             <div class="mat-elevation-z8">
                 <table mat-table [dataSource]="dataSource">
                   <ng-container matColumnDef="name">

@@ -1,5 +1,5 @@
-<div class="graph-container">
-    <ngx-graph [nodes]="entities" [links]="links" [draggingEnabled]="false">
+<div style="height: calc(100vh - 6%);">
+    <ngx-graph [nodes]="entities" [links]="links" [draggingEnabled]="false" fxFlexFill>
       <ng-template #nodeTemplate let-node>
         <svg:g class="node" [routerLink]="['/details', node.id]" style="cursor: pointer;">
           <svg:rect
