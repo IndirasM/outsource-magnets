@@ -16,7 +16,7 @@ export class AppComponent implements OnInit {
   }
 
   logIn(credentials) {
-    if((credentials.username === 'a' && credentials.password === 'a') || sessionStorage.getItem('user')) {
+    if((credentials.email === 'a' && credentials.password === 'a') || sessionStorage.getItem('user')) {
       this.isLoggedIn = true;
     } else {
       this.authService.logIn(credentials).subscribe((data: string) => {

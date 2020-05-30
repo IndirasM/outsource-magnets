@@ -1,5 +1,6 @@
 export interface LearningDays {
   learningDayId: number;
+  subjectId: number,
   title: string;
   date: any;
 }
@@ -9,4 +10,5 @@ export interface EmployeesLearningDays {
   employeeName: string;
   title: string;
   date: string;
+  subjectId: number;
 }
