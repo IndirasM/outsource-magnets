@@ -3,6 +3,8 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { InterceptorService } from '../interceptor.service';
+
 
 @Component({
   selector: 'app-main-container',
@@ -19,9 +21,13 @@ export class MainContainerComponent implements OnInit {
       shareReplay()
     );
 
-  constructor(private breakpointObserver: BreakpointObserver, private router: Router) {}
+  constructor(private breakpointObserver: BreakpointObserver, private router: Router, private interceptorService: InterceptorService) {}
 
   ngOnInit() {
+    this.interceptorService.logout$.subscribe(() => {
+      this.logOut();
+    });
+
     this.router.navigateByUrl('calendar');
   }
 

@@ -8,10 +8,12 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { AddTrainingComponent } from './main-container/add-training/add-training.component';
 import { TrainingDetailsComponent } from './main-container/training-graph/training-details/training-details.component';
 import { AuthGuard } from './auth.guard';
+import { TeamsComponent } from './main-container/teams/teams.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: '', canActivate: [AuthGuard], children: [
+    { path: "teams", component: TeamsComponent },
     { path: "calendar", component: TrainingCalendarComponent },
     { path: "graph", component: TrainingGraphComponent },
     { path: "settings", component: SettingsComponent },

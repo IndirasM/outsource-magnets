@@ -1,13 +1,13 @@
 <div class="container">
     <div fxLayout="column" fxLayoutAlign="center center">
-        <h1 style="margin-top: 20rem;">Welcome to the learning day logging system</h1>
+        <h1 style="margin-top: 20rem; color: white;">Welcome to the learning day logging system</h1>
         <mat-form-field>
             <mat-label>Email</mat-label>
-            <input matInput type="email" [(ngModel)]="user.email">
+            <input matInput type="email" [(ngModel)]="user.username" required (keyup.enter)="logIn()">
         </mat-form-field>
         <mat-form-field>
             <mat-label>Password</mat-label>
-            <input matInput type="password" [(ngModel)]="user.password">
+            <input matInput type="password" [(ngModel)]="user.password" required (keyup.enter)="logIn()">
         </mat-form-field>
         <button mat-raised-button color="primary" (click)="logIn()">Log in</button>
     </div>

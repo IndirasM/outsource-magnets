@@ -28,10 +28,13 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator'; 
-import { MatDividerModule } from '@angular/material/divider'; 
+import { MatDividerModule } from '@angular/material/divider';
+import { TeamsComponent } from './main-container/teams/teams.component'; 
+import { AuthInterceptor } from './auth.interceptor';
+import { MatSnackBarModule } from '@angular/material/snack-bar'; 
 
 @NgModule({
   declarations: [
@@ -43,7 +46,8 @@ import { MatDividerModule } from '@angular/material/divider';
     SettingsComponent,
     AddTrainingComponent,
     TrainingDetailsComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    TeamsComponent
   ],
   imports: [
     BrowserModule,
@@ -66,9 +70,16 @@ import { MatDividerModule } from '@angular/material/divider';
     MatTableModule,
     MatPaginatorModule,
     MatDividerModule,
+    MatSnackBarModule,
     CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory })
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
