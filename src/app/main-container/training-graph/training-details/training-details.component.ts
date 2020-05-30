@@ -25,7 +25,7 @@ export class TrainingDetailsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.id = this.route.snapshot.params["id"];
+    this.id = this.route.snapshot.params['id'];
 
     this.graphService.fetchTraining(this.id).subscribe(
       (data: any) => {

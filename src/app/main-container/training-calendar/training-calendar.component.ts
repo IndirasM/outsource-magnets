@@ -4,6 +4,7 @@ import { Subject } from 'rxjs';
 import {EmployeesLearningDays, LearningDays} from '../../app.const';
 import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent, CalendarView } from 'angular-calendar';
 import {CalendarService} from '../../calendar.service';
+import { Router } from '@angular/router';
 
 interface UniqueEmployee {
   employeeId: number;
@@ -36,27 +37,32 @@ export class TrainingCalendarComponent implements OnInit {
 
    learningDays: LearningDays[] = [ {
       learningDayId: 1,
+      subjectId: 1,
       title: 'Event 1',
       date: '2020-05-27'
     },
     {
       learningDayId: 2,
       title: 'Event 2',
+      subjectId: 4,
       date: '2020-05-28'
     },
     {
       learningDayId: 3,
       title: 'Event 3',
+      subjectId: 2,
       date: '2020-05-26'
     },
     {
       learningDayId: 4,
       title: 'Event 4',
+      subjectId: 5,
       date: '2020-06-03'
     },
     {
       learningDayId: 5,
       title: 'Event 5',
+      subjectId: 3,
       date: '2020-05-29'
     },
   ];
@@ -65,49 +71,57 @@ export class TrainingCalendarComponent implements OnInit {
        employeeId: 1,
        employeeName: 'Name 1',
        date: '2020-06-01',
-       title: 'Event 9'
+       title: 'Event 9',
+       subjectId: 1,
      },
      {
        employeeId: 1,
        employeeName: 'Name 1',
        date: '2020-05-29',
-       title: 'Event 8'
+       title: 'Event 8',
+       subjectId: 1
      },
      {
        employeeId: 4,
        employeeName: 'Name 2',
        date: '2020-05-26',
-       title: 'Event 3'
+       title: 'Event 3',
+       subjectId: 1
      },
      {
        employeeId: 3,
        employeeName: 'Name 3',
        date: '2020-05-28',
-       title: 'Event 2'
+       title: 'Event 2',
+       subjectId: 1
      },
      {
        employeeId: 3,
        employeeName: 'Name 3',
        date: '2020-05-27',
-       title: 'Event 1'
+       title: 'Event 1',
+       subjectId: 1
      },
      {
        employeeId: 2,
        employeeName: 'Name 4',
        date: '2020-05-27',
-       title: 'Event 1'
+       title: 'Event 1',
+       subjectId: 1
      },
      {
        employeeId: 2,
        employeeName: 'Name 4',
        date: '2020-06-01',
-       title: 'Event 7'
+       title: 'Event 7',
+       subjectId: 1
      },
      {
        employeeId: 2,
        employeeName: 'Name 4',
        date: '2020-05-30',
-       title: 'Event 6'
+       title: 'Event 6',
+       subjectId: 1
      },
    ];
 
@@ -126,7 +140,7 @@ export class TrainingCalendarComponent implements OnInit {
 
   activeDayIsOpen: boolean = true;
 
-  constructor(private calendarService: CalendarService) {}
+  constructor(private calendarService: CalendarService, private router: Router) {}
   ngOnInit(): void {
     // TO-DO: get learning days
 /*    this.calendarService.getLearningDays().subscribe(
@@ -156,12 +170,14 @@ export class TrainingCalendarComponent implements OnInit {
       if (startOfDay(new Date(this.learningDays[v].date)) > new Date()) {
         this.addEvent(new Date(this.learningDays[v].date), this.learningDays[v].title, this.actions, colors.red, {
           employeeId: null,
-          learningDayId: this.learningDays[v].learningDayId
+          learningDayId: this.learningDays[v].learningDayId,
+          subjectId: this.learningDays[v].subjectId
         });
       } else {
         this.addEvent(new Date(this.learningDays[v].date), this.learningDays[v].title, null, colors.red, {
           employeeId: null,
-          learningDayId: this.learningDays[v].learningDayId
+          learningDayId: this.learningDays[v].learningDayId,
+          subjectId: this.learningDays[v].subjectId
         });
       }
     }
@@ -190,7 +206,8 @@ export class TrainingCalendarComponent implements OnInit {
         if (this.employeesLearningDays[v].employeeId === value && this.checked) {
           this.addEvent(new Date(this.employeesLearningDays[v].date), this.employeesLearningDays[v].employeeName + ': ' + this.employeesLearningDays[v].title, null, colors.blue, {
             employeeId: this.employeesLearningDays[v].employeeId,
-            learningDayId: null
+            learningDayId: null,
+            subjectId: this.employeesLearningDays[v].subjectId
           });
         }
     }
@@ -276,7 +293,7 @@ export class TrainingCalendarComponent implements OnInit {
   }
 
   handleEvent(action: string, event: CalendarEvent): void {
-    console.log('Handle event'); // handle event
+    this.router.navigateByUrl(`details/${event.meta.subjectId}`);
   }
 
   deleteEvent(eventToDelete: CalendarEvent): void {
