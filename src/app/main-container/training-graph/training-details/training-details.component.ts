@@ -25,6 +25,7 @@ export class TrainingDetailsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.loading = true;
     this.id = this.route.snapshot.params['id'];
 
     this.graphService.fetchTraining(this.id).subscribe(
@@ -32,10 +33,12 @@ export class TrainingDetailsComponent implements OnInit {
         this.currentTraining = data;
         this.dataSource = new MatTableDataSource<any>(ELEMENT_DATA);
         this.dataSource.paginator = this.paginator;
-        this.loading = false;
       },
       (err) => {
         throwError(err);
+      },
+      () => {
+        this.loading = false;
       }
     );
   }

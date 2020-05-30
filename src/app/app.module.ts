@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NgxGraphModule } from '@swimlane/ngx-graph';
 
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LoginComponent } from './login/login.component';
 import { MainContainerComponent } from './main-container/main-container.component';
 import { LayoutModule } from '@angular/cdk/layout';
@@ -34,7 +34,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatDividerModule } from '@angular/material/divider';
 import { TeamsComponent } from './main-container/teams/teams.component'; 
 import { AuthInterceptor } from './auth.interceptor';
-import { MatSnackBarModule } from '@angular/material/snack-bar'; 
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'; 
 
 @NgModule({
   declarations: [
@@ -53,7 +54,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     BrowserModule,
     AppRoutingModule,
     NgxGraphModule,
-    NoopAnimationsModule,
+    BrowserAnimationsModule,
     LayoutModule,
     MatToolbarModule,
     MatButtonModule,
@@ -71,6 +72,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MatPaginatorModule,
     MatDividerModule,
     MatSnackBarModule,
+    MatProgressSpinnerModule,
     CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory })
   ],
   providers: [

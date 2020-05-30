@@ -46,18 +46,12 @@ export class GraphService {
     ]
   }
 
-  private baseUrl = "http://localhost:8080/";
+  private baseUrl = "http://localhost:8080";
 
   constructor(private httpClient: HttpClient) { }
 
   fetchTraining(id) {
-    let kek;
-    if(this.baseUrl === "http://localhost:8080/") {
-      kek = of(this.mockTraining);
-    } else {
-      kek = this.httpClient.get(`${this.baseUrl}/api/training`, id);
-    }
-    return kek;
+    return this.httpClient.get(`${this.baseUrl}/api/subject/${id}`);
   }
 
   mockResponse = [
@@ -94,12 +88,6 @@ export class GraphService {
   ]
 
   fetchAllTrainings() {
-    let kek;
-    if(this.baseUrl === "http://localhost:8080/") {
-      kek = of(this.mockResponse);
-    } else {
-      kek = this.httpClient.get(`${this.baseUrl}/api/subject/all`);
-    }
-    return kek;
+    return this.httpClient.get(`${this.baseUrl}/api/subject/all`);
   }
 }
