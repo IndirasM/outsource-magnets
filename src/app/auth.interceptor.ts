@@ -6,8 +6,8 @@ import {
   HttpInterceptor,
   HttpResponse
 } from '@angular/common/http';
-import { Observable, Subject } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, Subject, of } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
 import { AppComponent } from './app.component';
 import { InterceptorService } from './interceptor.service';
 
@@ -18,11 +18,11 @@ export class AuthInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     return next.handle(request).pipe(
-      map(event => {
-        if(event instanceof HttpResponse && event.status / 100 > 3) {
+      catchError(err => {
+        if(err.status >= 400) {
           this.interceptorService.logout$.next();
         }
-        return event;
+        return of(err);
       })
     )
   }
