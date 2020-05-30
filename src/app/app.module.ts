@@ -29,13 +29,15 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { ReactiveFormsModule } from '@angular/forms';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator'; 
 import { MatDividerModule } from '@angular/material/divider';
-import { TeamsComponent } from './main-container/teams/teams.component'; 
+import { TeamsComponent } from './main-container/teams/teams.component';
 import { AuthInterceptor } from './auth.interceptor';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'; 
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
@@ -68,6 +70,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     CommonModule,
     MatCheckboxModule,
     HttpClientModule,
+    MatExpansionModule,
+    ReactiveFormsModule,
     MatTableModule,
     MatPaginatorModule,
     MatDividerModule,
