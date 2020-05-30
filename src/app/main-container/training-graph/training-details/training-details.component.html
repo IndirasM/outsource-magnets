@@ -1,4 +1,5 @@
-<div class="container">
+<mat-spinner *ngIf="loading" style="margin: 1%"></mat-spinner>
+<div *ngIf="!loading" class="container">
     <h1>{{currentTraining.name}}</h1>
     <div>
         <h3>Description</h3>

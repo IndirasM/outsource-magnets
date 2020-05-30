@@ -6,15 +6,10 @@ import { UserCredentials } from '../types';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
 
   @Output() login = new EventEmitter();
   user = new UserCredentials();
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
 
   logIn() {
     this.login.emit(this.user);
