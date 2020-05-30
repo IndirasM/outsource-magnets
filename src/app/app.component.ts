@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from './auth.service';
+import { AuthInterceptor } from './auth.interceptor';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-root',
@@ -9,19 +11,27 @@ import { AuthService } from './auth.service';
 export class AppComponent implements OnInit {
   public isLoggedIn: boolean;
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private snackBar: MatSnackBar) {}
 
   ngOnInit() {
-    this.isLoggedIn = false;
+    if(sessionStorage.getItem('user')) {
+      this.isLoggedIn = true;
+    } else {
+      this.isLoggedIn = false;      
+    }
   }
 
   logIn(credentials) {
-    if((credentials.email === 'a' && credentials.password === 'a') || sessionStorage.getItem('user')) {
-      this.isLoggedIn = true;
-    } else {
-      this.authService.logIn(credentials).subscribe((data: string) => {
+    if(credentials.username && credentials.password) {
+      this.authService.logIn(credentials).subscribe((data: any) => {
         this.isLoggedIn = true;
-        sessionStorage.setItem('user', data);
+        sessionStorage.setItem('user', data.token);
+      },
+      err => {
+        this.snackBar.open(err.error.message, 'Close', {
+          duration: 2000,
+          panelClass: ['snackbar-background']
+        });
       });
     }
   }
