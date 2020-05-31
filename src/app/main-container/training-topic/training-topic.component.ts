@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Validators, FormBuilder, FormGroup, FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {MatSelectModule} from '@angular/material/select';
-import {startWith, map} from 'rxjs/operators';
+import { Validators, FormBuilder, FormGroup, FormControl} from '@angular/forms';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 interface Food {
   value: string;
@@ -69,7 +68,7 @@ export class TrainingTopicComponent implements OnInit {
   user: any;
   model: any;
 
-  constructor(private fb: FormBuilder, private _formBuilder: FormBuilder) {
+  constructor(private fb: FormBuilder, private _formBuilder: FormBuilder, private _snackBar: MatSnackBar) {
     this.topicForm = fb.group({
       name: ['', Validators.required],
       description: ['', Validators.required],
@@ -81,10 +80,13 @@ export class TrainingTopicComponent implements OnInit {
   ngOnInit() {
   }
 
-  OnSubmit() {
-
-
+  onSubmit() {
     this.user = this.topicForm.value;
     console.log(this.user);
+
+    this._snackBar.open("PASHOL", "Close", {
+      duration: 2000,
+      panelClass: ["snackbar-background"]
+    });
   }
 }
