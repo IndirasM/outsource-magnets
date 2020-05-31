@@ -1,0 +1,19 @@
+<div *ngIf="!loading" fxLayout="column">
+    <h2 style="margin: 1%">Learning day</h2>
+    <div style="margin: 2%">Learned: <a [routerLink]="['details', subject.id]" (click)="close()">{{ subject.name }}</a></div>
+    <span style="margin: 2%">Learned on: {{ data.learningDay.date }}</span>
+    <div *ngIf="!addingNote" style="margin: 2%; margin-bottom: 0;">Notes</div>
+    <div *ngIf="!addingNote" style="margin: 2%; margin-top: 1%;">{{notes}}</div>
+    <div style="margin: 2%;">
+        <button mat-raised-button style="margin-right: 2%;" color="primary" (click)="addNote()" *ngIf="!addingNote">Edit notes</button>
+        <button mat-raised-button color="accent" (click)="close()" *ngIf="!addingNote">Close</button>
+    </div>
+    <mat-form-field *ngIf="addingNote" style="margin: 2%;">
+        <mat-label>Edit your learning day notes</mat-label>
+        <textarea [(ngModel)]="notes" matInput></textarea>
+    </mat-form-field>
+    <div fxLayout="row" style="margin: 2%" *ngIf="addingNote">
+        <button mat-raised-button color="primary" style="margin-right: 2%;" (click)="submitNote()">Submit</button>
+        <button mat-raised-button color="accent" (click)="cancelNote()">Cancel</button>
+    </div>
+</div>

@@ -15,7 +15,6 @@ export class AddTrainingComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<AddTrainingComponent>,
-    @Inject(MAT_DIALOG_DATA) public data,
     private graphService: GraphService
   ) { }
 

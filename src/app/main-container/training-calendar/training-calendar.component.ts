@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { MatDialogRef, MatDialog } from '@angular/material/dialog';
 import { AddTrainingComponent } from '../add-training/add-training.component';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { TrainingDayComponent } from './training-day/training-day.component';
 
 interface UniqueEmployee {
   employeeId: number;
@@ -58,6 +59,7 @@ export class TrainingCalendarComponent implements OnInit {
 
   constructor(private calendarService: CalendarService, private router: Router, public dialog: MatDialog, private spinner: NgxSpinnerService) {}
   ngOnInit(): void {
+    this.events = [];
     this.spinner.show();
     this.getUserLearningDays();
     this.getUserEmployeesLearningDays();
@@ -71,12 +73,14 @@ export class TrainingCalendarComponent implements OnInit {
           if (startOfDay(new Date(this.learningDays[v].date)) > new Date()) {
             this.addEvent(new Date(this.learningDays[v].date), this.learningDays[v].title, this.actions, colors.red, {
               employeeId: null,
-              learningDayId: this.learningDays[v].learningDayId
+              learningDayId: this.learningDays[v].learningDayId,
+              notes: this.learningDays[v].notes
             });
           } else {
             this.addEvent(new Date(this.learningDays[v].date), this.learningDays[v].title, null, colors.red, {
               employeeId: null,
-              learningDayId: this.learningDays[v].learningDayId
+              learningDayId: this.learningDays[v].learningDayId,
+              notes: this.learningDays[v].notes
             });
           }
         }
@@ -103,24 +107,15 @@ export class TrainingCalendarComponent implements OnInit {
       };
   }
 
-  subjects = [
-    {
-      subjectId: 1,
-      name: 'kek'
-    },
-    {
-      subjectId: 2,
-      name: 'kekistan'
-    }
-  ]
-
   openNewLearningForm() {
-    const dialogRef = this.dialog.open(AddTrainingComponent, {
-      data: this.subjects
-    })
+    const dialogRef = this.dialog.open(AddTrainingComponent);
 
     dialogRef.afterClosed().subscribe(formData => {
-      this.calendarService.addLearningDay(formData).subscribe(() => {});
+      if(formData) {
+        this.calendarService.addLearningDay(formData).subscribe(() => {
+          this.ngOnInit();
+        });
+      }
     });
   }
 
@@ -136,7 +131,8 @@ export class TrainingCalendarComponent implements OnInit {
           this.addEvent(new Date(this.employeesLearningDays[v].date), this.employeesLearningDays[v].employeeName + ': ' + this.employeesLearningDays[v].title, null, colors.blue, {
             employeeId: this.employeesLearningDays[v].employeeId,
             learningDayId: null,
-            subjectId: this.employeesLearningDays[v].subjectId
+            subjectId: this.employeesLearningDays[v].subjectId,
+            notes: this.learningDays[v].notes
           });
         }
     }
@@ -205,7 +201,18 @@ export class TrainingCalendarComponent implements OnInit {
 
 
   handleEvent(action: string, event: CalendarEvent): void {
-    this.router.navigateByUrl(`details/${event.meta.subjectId}`);
+    console.log(event);
+    const dialogRef = this.dialog.open(TrainingDayComponent, {
+      width: '500px',
+      data: {
+        learningDay: this.learningDays.find(day => day.learningDayId === event.meta.learningDayId)
+      }
+    });
+    dialogRef.afterClosed().subscribe(modified => {
+      if (modified) {
+        this.ngOnInit();
+      }
+    });
   }
 
   deleteEvent(eventToDelete: CalendarEvent): void {
