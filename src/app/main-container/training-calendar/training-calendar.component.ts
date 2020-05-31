@@ -5,6 +5,8 @@ import {EmployeesLearningDays, LearningDays} from '../../app.const';
 import { CalendarEvent, CalendarEventAction, CalendarEventTimesChangedEvent, CalendarView } from 'angular-calendar';
 import {CalendarService} from '../../calendar.service';
 import { Router } from '@angular/router';
+import { MatDialogRef, MatDialog } from '@angular/material/dialog';
+import { AddTrainingComponent } from '../add-training/add-training.component';
 
 interface UniqueEmployee {
   employeeId: number;
@@ -140,7 +142,7 @@ export class TrainingCalendarComponent implements OnInit {
 
   activeDayIsOpen: boolean = true;
 
-  constructor(private calendarService: CalendarService, private router: Router) {}
+  constructor(private calendarService: CalendarService, private router: Router, public dialog: MatDialog) {}
   ngOnInit(): void {
     // TO-DO: get learning days
 /*    this.calendarService.getLearningDays().subscribe(
@@ -194,6 +196,27 @@ export class TrainingCalendarComponent implements OnInit {
     this.filterOutUniqueEmployees(); // to delete after connecting back-end
 }
 
+  subjects = [
+    {
+      subjectId: 1,
+      name: 'kek'
+    },
+    {
+      subjectId: 2,
+      name: 'kekistan'
+    }
+  ]
+
+  openNewLearningForm() {
+    const dialogRef = this.dialog.open(AddTrainingComponent, {
+      data: this.subjects
+    })
+
+    dialogRef.afterClosed().subscribe(formData => {
+      console.log(formData);
+      this.calendarService.addLearningDay(formData).subscribe(() => {});
+    });
+  }
 
   changeValue(value: number) {
     for (let i in this.uniqueEmployees) {
