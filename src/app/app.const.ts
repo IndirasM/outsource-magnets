@@ -69,3 +69,7 @@ export interface SubjectsToLearnByTeam {
   subjectName: string;
   employees: string[];
 }
+
+export interface SetEmployeeSuggestedSubject {
+  id: number;
+}

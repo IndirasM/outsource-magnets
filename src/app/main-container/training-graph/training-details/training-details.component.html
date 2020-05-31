@@ -49,6 +49,19 @@
             </div>
         </div>
     </div>
+  <mat-divider></mat-divider>
+  <div>
+    <p>Suggest this subject to your employees</p>
+    <div>
+      <mat-checkbox (change)="onChangeSelectAll($event)">Select All</mat-checkbox>
+    </div>
+    <div *ngFor="let employee of employees">
+      <mat-checkbox [checked]="employee.checked" (change)="changeValue($event, employee.id)">{{employee.name}}</mat-checkbox>
+    </div>
+    <div>
+      <button mat-raised-button (click)="saveSuggestedSubjects()">Suggest</button>
+    </div>
+  </div>
     <h3 style="margin-top: 1%;">Comments</h3>
     <mat-divider></mat-divider>
     <div *ngFor="let comment of currentTraining.comments">

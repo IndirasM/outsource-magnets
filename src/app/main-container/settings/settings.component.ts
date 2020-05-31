@@ -8,6 +8,7 @@ import {
 } from '../../app.const';
 import {FormGroup, FormControl, Validators, FormArray} from '@angular/forms';
 import {SettingsService} from '../../settings.service';
+import {NgxSpinnerService} from 'ngx-spinner';
 
 @Component({
   selector: 'app-settings',
@@ -16,50 +17,11 @@ import {SettingsService} from '../../settings.service';
 })
 export class SettingsComponent implements OnInit {
 
-  globalLimit: GlobalLimits =  {
-    limitId: 1,
-    yearLimit: 12,
-    monthLimit: 3,
-    rowLimit: 3
-    };
+  globalLimit: GlobalLimits;
 
-  userLimits: UserLimits = {
-    employeeId: 1,
-    limitId: 2,
-    yearLimit: 15,
-    monthLimit: 4,
-    rowLimit: 3,
-    isBoss: true
-    };
+  userLimits: UserLimits;
 
-  employeesLimits: EmployeesLimits[] = [ {
-    employeeId: 2,
-    employeeName: 'Name 2',
-    limitId: 1,
-    isGlobal: true,
-    yearLimit: 12,
-    monthLimit: 3,
-    rowLimit: 3
-    },
-    {
-      employeeId: 3,
-      employeeName: 'Name 3',
-      limitId: 2,
-      isGlobal: false,
-      yearLimit: 15,
-      monthLimit: 4,
-      rowLimit: 3
-    },
-    {
-      employeeId: 4,
-      employeeName: 'Name 4',
-      limitId: 3,
-      isGlobal: true,
-      yearLimit: 13,
-      monthLimit: 2,
-      rowLimit: 2
-    },
-  ];
+  employeesLimits: EmployeesLimits[] = [];
 
   showMyLimitsEditBtns = false;
   showGlobalLimitsEditBtns = false;
@@ -67,36 +29,30 @@ export class SettingsComponent implements OnInit {
   hideEmployeeLimitEditBtn = false;
   successMessage = false;
   myLimitsForm = new FormGroup({
-    myYearlyLimit: new FormControl(this.userLimits.yearLimit, [Validators.required, Validators.min(0), Validators.max(30)]),
-    myMonthlyLimit: new FormControl(this.userLimits.monthLimit, [Validators.required, Validators.min(0), Validators.max(10)]),
-    myRowLimit: new FormControl(this.userLimits.rowLimit, [Validators.required, Validators.min(0), Validators.max(5)]),
+    myYearlyLimit: new FormControl('', [Validators.required, Validators.min(0), Validators.max(30)]),
+    myMonthlyLimit: new FormControl('', [Validators.required, Validators.min(0), Validators.max(10)]),
+    myRowLimit: new FormControl('', [Validators.required, Validators.min(0), Validators.max(5)]),
   });
   globalLimitsForm = new FormGroup({
-    globalYearlyLimit: new FormControl(this.globalLimit.yearLimit, [Validators.required, Validators.min(0), Validators.max(30)]),
-    globalMonthlyLimit: new FormControl(this.globalLimit.monthLimit, [Validators.required, Validators.min(0), Validators.max(10)]),
-    globalRowLimit: new FormControl(this.globalLimit.rowLimit, [Validators.required, Validators.min(0), Validators.max(5)]),
+    globalYearlyLimit: new FormControl('', [Validators.required, Validators.min(0), Validators.max(30)]),
+    globalMonthlyLimit: new FormControl('', [Validators.required, Validators.min(0), Validators.max(10)]),
+    globalRowLimit: new FormControl('', [Validators.required, Validators.min(0), Validators.max(5)]),
   });
 
   employeesLimitsFormArray = new FormArray([]);
   setGlobalLimit: SetGlobalLimitRequestModel;
   employeeLimit: SetEmployeeLimits;
-  constructor(private settingsService: SettingsService) { }
+  constructor(private settingsService: SettingsService,
+              private spinner: NgxSpinnerService) { }
 
   ngOnInit(): void {
-/*    this.settingsService.getGlobalLimits().subscribe(
-      resp => {
-        this.globalLimit = resp;
-        this.globalLimitsForm = new FormGroup({
-          globalYearlyLimit: new FormControl(this.globalLimit.yearLimit, [Validators.required, Validators.min(0), Validators.max(30)]),
-          globalMonthlyLimit: new FormControl(this.globalLimit.monthLimit, [Validators.required, Validators.min(0), Validators.max(10)]),
-          globalRowLimit: new FormControl(this.globalLimit.rowLimit, [Validators.required, Validators.min(0), Validators.max(5)]),
-        });
-        this.globalLimitsForm.disable();
-      }
-    ),
-    error => {
-      console.log(error.error.message);
-    };
+    this.spinner.show();
+    this.getGlobalLimits();
+    this.getUserLimits();
+    this.getEmployyesLimits();
+  }
+
+  getUserLimits() {
     this.settingsService.getUserLimits().subscribe(
       resp => {
         this.userLimits = resp;
@@ -111,6 +67,9 @@ export class SettingsComponent implements OnInit {
       error => {
         console.log(error.error.message);
       };
+  }
+
+  getEmployyesLimits() {
     this.settingsService.getEmployeesLimits().subscribe(
       resp => {
         this.employeesLimits = resp;
@@ -118,19 +77,13 @@ export class SettingsComponent implements OnInit {
           this.addEmployee(this.employeesLimits[v]);
         }
         this.employeesLimitsFormArray.disable();
+        this.spinner.hide();
       }
     ),
       error => {
         console.log(error.error.message);
-      };*/
-    for (const v in this.employeesLimits) {
-      this.addEmployee(this.employeesLimits[v]);
-    }
-    this.employeesLimitsFormArray.disable();
-    this.globalLimitsForm.disable();
-    this.myLimitsForm.disable();
+      };
   }
-
 
   addEmployee(limit: EmployeesLimits): void {
     const employeeLimitsFormGroup = new FormGroup({
@@ -145,7 +98,22 @@ export class SettingsComponent implements OnInit {
     this.employeesLimitsFormArray.push(employeeLimitsFormGroup);
   }
 
-
+  getGlobalLimits() {
+    this.settingsService.getGlobalLimits().subscribe(
+      resp => {
+        this.globalLimit = resp;
+        this.globalLimitsForm = new FormGroup({
+          globalYearlyLimit: new FormControl(this.globalLimit.yearLimit, [Validators.required, Validators.min(0), Validators.max(30)]),
+          globalMonthlyLimit: new FormControl(this.globalLimit.monthLimit, [Validators.required, Validators.min(0), Validators.max(10)]),
+          globalRowLimit: new FormControl(this.globalLimit.rowLimit, [Validators.required, Validators.min(0), Validators.max(5)]),
+        });
+        this.globalLimitsForm.disable();
+      }
+    ),
+      error => {
+        console.log(error.error.message);
+      };
+  }
 
   enableMyLimitsForm(): void {
     this.myLimitsForm.enable();

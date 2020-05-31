@@ -1,5 +1,4 @@
-<!--<mat-spinner *ngIf="loadingEvents || loadingEmployees" style="margin: 1%"></mat-spinner>
-<div *ngIf="!loadingEvents && !loadingEmployees" class="container">-->
+<ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#fff" type = "line-scale" [fullScreen] = "true"><p style="color: white" > Loading... </p></ngx-spinner>
 <section class="flex-line-container">
   <div class="view-date-container">
     <h3 class="calendar-header-text">{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</h3>
@@ -55,9 +54,8 @@
   <p>Employees:</p>
 </div>
 <div class="flex-checkbox-container" >
-  <div class="checkbox-container" *ngFor="let employee of uniqueEmployees">
+  <div *ngFor="let employee of uniqueEmployees">
     <mat-checkbox (click)="changeValue(employee.employeeId)">{{employee.employeeName}}</mat-checkbox>
   </div>
 </div>
-<!--</div>-->
 

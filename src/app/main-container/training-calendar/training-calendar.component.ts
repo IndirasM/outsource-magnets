@@ -7,6 +7,7 @@ import {CalendarService} from '../../calendar.service';
 import { Router } from '@angular/router';
 import { MatDialogRef, MatDialog } from '@angular/material/dialog';
 import { AddTrainingComponent } from '../add-training/add-training.component';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 interface UniqueEmployee {
   employeeId: number;
@@ -37,102 +38,13 @@ const colors: any = {
 })
 export class TrainingCalendarComponent implements OnInit {
 
-    learningDays: LearningDays[] = [];
-    /*learningDays: LearningDays[] = [ {
-      learningDayId: 1,
-      subjectId: 1,
-      title: 'Event 1',
-      date: '2020-05-27'
-    },
-    {
-      learningDayId: 2,
-      title: 'Event 2',
-      subjectId: 4,
-      date: '2020-05-28'
-    },
-    {
-      learningDayId: 3,
-      title: 'Event 3',
-      subjectId: 2,
-      date: '2020-05-26'
-    },
-    {
-      learningDayId: 4,
-      title: 'Event 4',
-      subjectId: 5,
-      date: '2020-06-03'
-    },
-    {
-      learningDayId: 5,
-      title: 'Event 5',
-      subjectId: 3,
-      date: '2020-05-29'
-    },
-  ];*/
+  learningDays: LearningDays[] = [];
+  employeesLearningDays: EmployeesLearningDays[] = [];
 
-    employeesLearningDays: EmployeesLearningDays[] = [];
-   /*employeesLearningDays: EmployeesLearningDays[] = [ {
-       employeeId: 1,
-       employeeName: 'Name 1',
-       date: '2020-06-01',
-       title: 'Event 9',
-       subjectId: 1,
-     },
-     {
-       employeeId: 1,
-       employeeName: 'Name 1',
-       date: '2020-05-29',
-       title: 'Event 8',
-       subjectId: 1
-     },
-     {
-       employeeId: 4,
-       employeeName: 'Name 2',
-       date: '2020-05-26',
-       title: 'Event 3',
-       subjectId: 1
-     },
-     {
-       employeeId: 3,
-       employeeName: 'Name 3',
-       date: '2020-05-28',
-       title: 'Event 2',
-       subjectId: 1
-     },
-     {
-       employeeId: 3,
-       employeeName: 'Name 3',
-       date: '2020-05-27',
-       title: 'Event 1',
-       subjectId: 1
-     },
-     {
-       employeeId: 2,
-       employeeName: 'Name 4',
-       date: '2020-05-27',
-       title: 'Event 1',
-       subjectId: 1
-     },
-     {
-       employeeId: 2,
-       employeeName: 'Name 4',
-       date: '2020-06-01',
-       title: 'Event 7',
-       subjectId: 1
-     },
-     {
-       employeeId: 2,
-       employeeName: 'Name 4',
-       date: '2020-05-30',
-       title: 'Event 6',
-       subjectId: 1
-     },
-   ];*/
-
-   uniqueEmployeesId: number[];
-   events: CalendarEvent[] = [];
-   uniqueEmployees: UniqueEmployee[] = [];
-   checked: boolean;
+  uniqueEmployeesId: number[];
+  events: CalendarEvent[] = [];
+  uniqueEmployees: UniqueEmployee[] = [];
+  checked: boolean;
 
   view: CalendarView = CalendarView.Month;
 
@@ -142,15 +54,16 @@ export class TrainingCalendarComponent implements OnInit {
 
   refresh: Subject<any> = new Subject();
 
-  activeDayIsOpen: boolean = true;
+  activeDayIsOpen: boolean = false;
 
-  loadingEvents: boolean;
-  loadingEmployees: boolean;
-  constructor(private calendarService: CalendarService, private router: Router, public dialog: MatDialog) {}
+  constructor(private calendarService: CalendarService, private router: Router, public dialog: MatDialog, private spinner: NgxSpinnerService) {}
   ngOnInit(): void {
-    this.loadingEvents = true;
-    this.loadingEmployees = true;
-    // TO-DO: get learning days
+    this.spinner.show();
+    this.getUserLearningDays();
+    this.getUserEmployeesLearningDays();
+}
+
+  getUserLearningDays() {
     this.calendarService.getLearningDays().subscribe(
       resp => {
         this.learningDays = resp;
@@ -167,44 +80,28 @@ export class TrainingCalendarComponent implements OnInit {
             });
           }
         }
-        this.loadingEvents = false;
-        console.log(this.loadingEvents);
       }
     ),
-    error => {
-      console.log(error.error.message);
-    };
+      error => {
+        console.log(error.error.message);
+      };
+  }
 
-/*    // to delete after connecting back-end
-    for (const v in this.learningDays) {
-      if (startOfDay(new Date(this.learningDays[v].date)) > new Date()) {
-        this.addEvent(new Date(this.learningDays[v].date), this.learningDays[v].title, this.actions, colors.red, {
-          employeeId: null,
-          learningDayId: this.learningDays[v].learningDayId,
-          subjectId: this.learningDays[v].subjectId
-        });
-      } else {
-        this.addEvent(new Date(this.learningDays[v].date), this.learningDays[v].title, null, colors.red, {
-          employeeId: null,
-          learningDayId: this.learningDays[v].learningDayId,
-          subjectId: this.learningDays[v].subjectId
-        });
-      }
-    }*/
-    // TO-DO: get employees learning days
+  getUserEmployeesLearningDays() {
     this.calendarService.getEmployeeLearningDays().subscribe(
       res => {
         this.employeesLearningDays = res;
         this.filterOutUniqueEmployees();
-        this.loadingEmployees = false;
-        console.log(this.loadingEmployees);
+        setTimeout(() => {
+          /** spinner ends after 5 seconds */
+          this.spinner.hide();
+        }, 1000);
       }
     ),
       error => {
-      console.log(error.error.message);
+        console.log(error.error.message);
       };
-  /*  this.filterOutUniqueEmployees(); // to delete after connecting back-end*/
-}
+  }
 
   subjects = [
     {

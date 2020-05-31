@@ -4,6 +4,7 @@ import { GraphService } from "src/app/graph.service";
 import { throwError } from "rxjs";
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
+import {SetEmployeeSuggestedSubject} from "../../../app.const";
 
 @Component({
   selector: "app-training-details",
@@ -11,9 +12,16 @@ import { MatPaginator } from '@angular/material/paginator';
   styleUrls: ["./training-details.component.scss"],
 })
 export class TrainingDetailsComponent implements OnInit {
+  employees: Employee[] = [
+    {id: 1, name: 'Name 1', checked: false},
+    {id: 2, name: 'Name 2', checked: false},
+    {id: 3, name: 'Name 2', checked: false},
+  ];
+
   id: string;
   currentTraining: any;
   loading: boolean = true;
+  addSubjectToEmployees: SetEmployeeSuggestedSubject[] = [];
 
   displayedColumns: string[] = ['name', 'date'];
   dataSource: MatTableDataSource<any>;
@@ -42,6 +50,52 @@ export class TrainingDetailsComponent implements OnInit {
       }
     );
   }
+
+  onChangeSelectAll(event) {
+    if (event.checked) {
+      this.employees.forEach(obj => {
+        obj.checked = true;
+      });
+    }
+    else {
+      this.employees.forEach(obj => {
+        obj.checked = false;
+      });
+    }
+  }
+
+  changeValue(event, id: number): void {
+    for (let i in this.employees) {
+      if (this.employees[i].id === id) {
+        this.employees[i].checked = !this.employees[i].checked;
+      }
+    }
+  }
+
+  saveSuggestedSubjects() {
+    for (let i in this.employees) {
+      if (this.employees[i].checked === true) {
+        this.addSubjectToEmployees = [
+          ...this.addSubjectToEmployees,
+          {
+          id: this.employees[i].id
+        } ];
+      }
+    }
+    console.log(this.addSubjectToEmployees);
+    this.graphService.addSuggestedSubjects(this.id, this.addSubjectToEmployees).subscribe(
+      (data: any) => {
+        console.log('On success message needs to be added');
+      },
+      (err) => {
+        throwError(err);
+      },
+    );
+    this.employees.forEach(obj => {
+      obj.checked = false;
+    });
+    this.addSubjectToEmployees = [];
+  }
 }
 
 export interface PeriodicElement {
@@ -50,6 +104,14 @@ export interface PeriodicElement {
   date: number;
   symbol: string;
 }
+
+export interface Employee {
+  id: number;
+  name: string;
+  checked: boolean
+}
+
+
 
 const ELEMENT_DATA: PeriodicElement[] = [
   {position: 1, name: 'Hydrogen', date: 1.0079, symbol: 'H'},

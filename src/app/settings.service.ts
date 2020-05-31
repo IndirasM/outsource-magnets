@@ -16,21 +16,21 @@ import {catchError} from 'rxjs/operators';
 export class SettingsService {
 
   private baseUrl: string = 'http://localhost:8080/api/';
-  private limitUrl: string = 'limit/';
+  private setGlobalLimitUrl: string = 'limit/';
   private employeeLimitUrl: string = 'employeeLimit/';
-  private globalLimitsUrl: string = 'globalLimit/';
-  private userLimitsUrl: string = 'userLimit/';
-  private employeesLimitsUrl: string = 'employeesLimits/';
+  private getGlobalLimitsUrl: string = 'limit/global/';
+  private userLimitsUrl: string = 'limit/';
+  private employeesLimitsUrl: string = 'limit/staffers/';
 
   private httpOptions = new HttpHeaders({
-    Authorization: 'Bearer ' + localStorage.getItem('token')
+    Authorization: 'Bearer ' + sessionStorage.getItem('user')
   });
 
   constructor(private httpClient: HttpClient) {
   }
 
   getGlobalLimits(): Observable<GlobalLimits> {
-    return this.httpClient.get<GlobalLimits>(this.baseUrl + this.globalLimitsUrl, {
+    return this.httpClient.get<GlobalLimits>(this.baseUrl + this.getGlobalLimitsUrl, {
       headers: this.httpOptions
     });
   }
@@ -48,7 +48,7 @@ export class SettingsService {
   }
 
   changeGlobalLimit(limit: SetGlobalLimitRequestModel): Observable<SetGlobalLimitRequestModel> {
-    return this.httpClient.post<SetGlobalLimitRequestModel>(this.baseUrl + this.limitUrl, limit, {
+    return this.httpClient.post<SetGlobalLimitRequestModel>(this.baseUrl + this.setGlobalLimitUrl, limit, {
       headers: this.httpOptions
     })
       .pipe(
