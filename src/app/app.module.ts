@@ -46,6 +46,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatDialogModule } from '@angular/material/dialog';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import {MatSelectModule} from '@angular/material/select';
+import { TrainingDayComponent } from './main-container/training-calendar/training-day/training-day.component';
 
 @NgModule({
   declarations: [
@@ -60,7 +61,8 @@ import {MatSelectModule} from '@angular/material/select';
     TrainingDetailsComponent,
     NotFoundComponent,
     TeamsComponent,
-    TeamDetailsComponent
+    TeamDetailsComponent,
+    TrainingDayComponent
   ],
   imports: [
     BrowserModule,

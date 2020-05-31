@@ -49,8 +49,8 @@
 <div class="flex-button-container">
   <a (click)="openNewLearningForm()"><button class="new-L-D-btn" mat-raised-button> Add New Learning Day</button></a>
 </div>
-<mat-divider></mat-divider>
-<div class="flex-p-container">
+<mat-divider *ngIf="uniqueEmployees.length"></mat-divider>
+<div class="flex-p-container" *ngIf="uniqueEmployees.length">
   <p>Employees:</p>
 </div>
 <div class="flex-checkbox-container" >

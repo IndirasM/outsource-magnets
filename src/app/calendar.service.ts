@@ -53,10 +53,20 @@ export class CalendarService {
   }
 
   addLearningDay(formData) {
-    console.log(formData);
+    const date = new Date(formData.training.date);
+    date.setDate(date.getDate() + 1);
     return this.httpClient.post(this.baseUrl + 'learningDays', {
-      date: new Date(formData.training.date).toISOString().substring(0,10),
+      date: date.toISOString().substring(0,10),
       subjectId: formData.training.subject.id
+    }, {
+      headers: this.httpOptions
+    })
+  }
+
+  addLearningDayNote(learningDayId, notes) {
+    return this.httpClient.post(this.baseUrl + this.learningDaysUrl + 'addNotes', {
+      learningDayId,
+      notes
     }, {
       headers: this.httpOptions
     })

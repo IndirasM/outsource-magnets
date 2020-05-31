@@ -3,7 +3,11 @@
     <form [formGroup]="newTrainingForm" (ngSubmit)="onSubmit()">
         <div formGroupName="training">
             <mat-form-field>
-                <input
+                <mat-label>Pick a topic</mat-label>
+                <mat-select formControlName="subject">
+                    <mat-option *ngFor="let learningSubject of learningSubjects" [value]="learningSubject">{{learningSubject.name}}</mat-option>
+                </mat-select>
+                <!-- <input
                     type="text"
                     placeholder="Pick a topic"
                     matInput
@@ -13,7 +17,7 @@
                     <mat-option *ngFor="let learningSubject of learningSubjects" [value]="learningSubject">
                       {{learningSubject.name}}
                     </mat-option>
-                </mat-autocomplete>
+                </mat-autocomplete> -->
             </mat-form-field>
             <div style="margin-left: 1%;">
                 OR 

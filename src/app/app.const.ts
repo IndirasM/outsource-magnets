@@ -3,6 +3,7 @@ export interface LearningDays {
   subjectId: number;
   title: string;
   date: any;
+  notes: string;
 }
 
 export interface EmployeesLearningDays {
