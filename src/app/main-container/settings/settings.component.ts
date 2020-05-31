@@ -1,7 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import {EmployeesLimits, GlobalLimits, UserLimits, Limit } from '../../app.const';
+import {
+  EmployeesLimits,
+  GlobalLimits,
+  UserLimits,
+  SetEmployeeLimits,
+  SetGlobalLimitRequestModel
+} from '../../app.const';
 import {FormGroup, FormControl, Validators, FormArray} from '@angular/forms';
-import {SettingsService} from "../../settings.service";
+import {SettingsService} from '../../settings.service';
 
 @Component({
   selector: 'app-settings',
@@ -18,8 +24,8 @@ export class SettingsComponent implements OnInit {
     };
 
   userLimits: UserLimits = {
+    employeeId: 1,
     limitId: 2,
-    isGlobal: true,
     yearLimit: 15,
     monthLimit: 4,
     rowLimit: 3,
@@ -72,8 +78,8 @@ export class SettingsComponent implements OnInit {
   });
 
   employeesLimitsFormArray = new FormArray([]);
-  limit: Limit;
-  employeeLimit: EmployeesLimits;
+  setGlobalLimit: SetGlobalLimitRequestModel;
+  employeeLimit: SetEmployeeLimits;
   constructor(private settingsService: SettingsService) { }
 
   ngOnInit(): void {
@@ -204,19 +210,17 @@ export class SettingsComponent implements OnInit {
   }
 
   saveMyLimits(): void {
-    this.limit = {
-      limitId: this.userLimits.limitId,
-      isGlobal: false,
+    this.employeeLimit = {
       yearLimit: this.myLimitsForm.get('myYearlyLimit').value,
       monthLimit: this.myLimitsForm.get('myMonthlyLimit').value,
       rowLimit: this.myLimitsForm.get('myRowLimit').value
     };
-    console.log(this.limit);
-/*    this.settingsService
-      .changeLimit(this.limit)
+    console.log(this.employeeLimit);
+    /*this.settingsService
+      .changeEmployeeLimit(this.userLimits.employeeId, this.employeeLimit)
       .subscribe(limit =>  this.userLimits = {
-      limitId: limit.limitId,
-      isGlobal: false,
+      employeeId: this.userLimits.employeeId,
+      limitId: this.userLimits.limitId,
       yearLimit: limit.yearLimit,
       monthLimit: limit.monthLimit,
       rowLimit: limit.rowLimit,
@@ -232,18 +236,16 @@ export class SettingsComponent implements OnInit {
   }
 
   saveGlobalLimits(): void {
-    this.limit = {
-      limitId: this.globalLimit.limitId,
-      isGlobal: true,
+    this.setGlobalLimit = {
       yearLimit: this.globalLimitsForm.get('globalYearlyLimit').value,
       monthLimit: this.globalLimitsForm.get('globalMonthlyLimit').value,
       rowLimit: this.globalLimitsForm.get('globalRowLimit').value
     };
-    console.log(this.limit);
+    console.log(this.setGlobalLimit);
 /*    this.settingsService
-      .changeLimit(this.limit)
+      .changeGlobalLimit(this.setGlobalLimit)
       .subscribe(limit =>  this.globalLimit = {
-        limitId: limit.limitId,
+        limitId: this.globalLimit.limitId,
         yearLimit: limit.yearLimit,
         monthLimit: limit.monthLimit,
         rowLimit: limit.rowLimit
@@ -259,20 +261,16 @@ export class SettingsComponent implements OnInit {
 
   saveEmployeeLimits(index: number, form: FormGroup): void {
     this.employeeLimit = {
-      employeeId: form.get('employeeId').value,
-      employeeName: form.get('employeeName').value,
-      limitId: form.get('limitId').value,
-      isGlobal: false,
       yearLimit: form.get('employeeYearlyLimit').value,
       monthLimit: form.get('employeeMonthlyLimit').value,
       rowLimit: form.get('employeeRowLimit').value
     };
 /*    this.settingsService
-      .changeEmployeeLimit(this.employeeLimit)
+      .changeEmployeeLimit(form.get('employeeId').value, this.employeeLimit)
       .subscribe(employeeLimit =>  this.employeesLimits[index] = {
-        employeeId: employeeLimit.employeeId,
-        employeeName: employeeLimit.employeeName,
-        limitId: employeeLimit.limitId,
+        employeeId: this.employeesLimits[index].employeeId,
+        employeeName: this.employeesLimits[index].employeeName,
+        limitId: this.employeesLimits[index].limitId,
         isGlobal: false,
         yearLimit: employeeLimit.yearLimit,
         monthLimit: employeeLimit.monthLimit,
