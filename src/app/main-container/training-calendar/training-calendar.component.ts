@@ -213,7 +213,6 @@ export class TrainingCalendarComponent implements OnInit {
     })
 
     dialogRef.afterClosed().subscribe(formData => {
-      console.log(formData);
       this.calendarService.addLearningDay(formData).subscribe(() => {});
     });
   }

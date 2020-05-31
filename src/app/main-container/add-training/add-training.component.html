@@ -9,7 +9,7 @@
                     matInput
                     formControlName="subject"
                     [matAutocomplete]="auto">
-                <mat-autocomplete #auto="matAutocomplete">
+                <mat-autocomplete #auto="matAutocomplete" [displayWith]="getOptionText">
                     <mat-option *ngFor="let learningSubject of learningSubjects" [value]="learningSubject">
                       {{learningSubject.name}}
                     </mat-option>

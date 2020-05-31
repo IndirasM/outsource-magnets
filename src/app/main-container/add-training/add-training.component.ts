@@ -36,6 +36,10 @@ export class AddTrainingComponent implements OnInit {
     this.dialogRef.close();
   }
 
+  getOptionText(option) {
+    return option.name;
+  }
+
   onSubmit() {
     this.dialogRef.close(this.newTrainingForm.value);
   }
