@@ -1,0 +1,95 @@
+.sidenav-container {
+  height: 100%;
+}
+
+.sidenav {
+  width: 200px;
+}
+
+.sidenav .mat-toolbar {
+  background: inherit;
+}
+
+.mat-toolbar.mat-primary {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+/*input {
+  color: white;
+  outline: none;
+  background: inherit;
+  background-color: #424242;
+  margin: 8px 0;
+  box-sizing: border-box;
+  border: none;
+  border-bottom: 2px;
+  padding: 12px 12px 12px 12px;
+  width: 100%;
+}*/
+
+.topic {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+}
+
+.name, .description, .parentName {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+}
+
+/*.date {
+  width: 50%;
+  margin-right: 12px;
+}*/
+
+#description {
+  height: 100px;
+  padding-bottom: 75px;
+}
+
+/*input[type=text]::placeholder, input[type=date]::placeholder {
+  text-align: left;
+}*/
+
+.container {
+  margin-left: 20px;
+  margin-top: 20px;
+  max-width: 500px;
+}
+
+.form-group, form-control, .input {
+  width: 100%;
+  //min-width: 500px;
+  //max-width: 1000px;
+  //margin: auto;
+}
+
+.button {
+  display: inline-block;
+  margin: 4px 2px;
+  cursor: pointer;
+  float: right;
+  justify-content: flex-end;
+}
+
+.ok {
+  background-color: #4CAF50;
+}
+
+.cancel {
+  background-color: #FF5252;
+}
+
+/*.cancel:hover {
+  background-color: #f44336;
+  color: white;
+}*/
+
+::ng-deep .snackbar-background {
+  background: #303030;
+  color: white;
+}
