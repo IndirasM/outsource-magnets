@@ -10,8 +10,8 @@ import { catchError} from 'rxjs/operators';
 export class CalendarService {
 
   private baseUrl: string = 'http://localhost:8080/api/';
-  private employeeLearningDaysUrl: string = 'employeelearningdays/';
-  private learningDaysUrl: string = 'learningdays/';
+  private employeeLearningDaysUrl: string = 'learningDays/staffers/'; // http://localhost:8080/api/learningDays/staffers
+  private learningDaysUrl: string = 'learningDays/'; // http://localhost:8080/api/learningDays
 
   private httpOptions = new HttpHeaders({
     Authorization: 'Bearer ' + sessionStorage.getItem('user')
@@ -19,14 +19,14 @@ export class CalendarService {
 
   constructor(private httpClient: HttpClient) {}
 
-  getLearningDays(): Observable<LearningDays> {
-    return this.httpClient.get<LearningDays>(this.baseUrl + this.learningDaysUrl, {
+  getLearningDays(): Observable<LearningDays[]> {
+    return this.httpClient.get<LearningDays[]>(this.baseUrl + this.learningDaysUrl, {
       headers: this.httpOptions
     });
   }
 
-  getEmployeeLearningDays(): Observable<EmployeesLearningDays> {
-    return this.httpClient.get<EmployeesLearningDays>(this.baseUrl + this.employeeLearningDaysUrl, {
+  getEmployeeLearningDays(): Observable<EmployeesLearningDays[]> {
+    return this.httpClient.get<EmployeesLearningDays[]>(this.baseUrl + this.employeeLearningDaysUrl, {
       headers: this.httpOptions
     });
   }
