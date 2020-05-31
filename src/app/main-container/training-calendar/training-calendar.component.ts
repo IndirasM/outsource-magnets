@@ -37,7 +37,8 @@ const colors: any = {
 })
 export class TrainingCalendarComponent implements OnInit {
 
-   learningDays: LearningDays[] = [ {
+    learningDays: LearningDays[] = [];
+    /*learningDays: LearningDays[] = [ {
       learningDayId: 1,
       subjectId: 1,
       title: 'Event 1',
@@ -67,9 +68,10 @@ export class TrainingCalendarComponent implements OnInit {
       subjectId: 3,
       date: '2020-05-29'
     },
-  ];
+  ];*/
 
-   employeesLearningDays: EmployeesLearningDays[] = [ {
+    employeesLearningDays: EmployeesLearningDays[] = [];
+   /*employeesLearningDays: EmployeesLearningDays[] = [ {
        employeeId: 1,
        employeeName: 'Name 1',
        date: '2020-06-01',
@@ -125,7 +127,7 @@ export class TrainingCalendarComponent implements OnInit {
        title: 'Event 6',
        subjectId: 1
      },
-   ];
+   ];*/
 
    uniqueEmployeesId: number[];
    events: CalendarEvent[] = [];
@@ -142,10 +144,14 @@ export class TrainingCalendarComponent implements OnInit {
 
   activeDayIsOpen: boolean = true;
 
+  loadingEvents: boolean;
+  loadingEmployees: boolean;
   constructor(private calendarService: CalendarService, private router: Router, public dialog: MatDialog) {}
   ngOnInit(): void {
+    this.loadingEvents = true;
+    this.loadingEmployees = true;
     // TO-DO: get learning days
-/*    this.calendarService.getLearningDays().subscribe(
+    this.calendarService.getLearningDays().subscribe(
       resp => {
         this.learningDays = resp;
         for (const v in this.learningDays) {
@@ -161,13 +167,15 @@ export class TrainingCalendarComponent implements OnInit {
             });
           }
         }
+        this.loadingEvents = false;
+        console.log(this.loadingEvents);
       }
     ),
     error => {
       console.log(error.error.message);
-    };*/
+    };
 
-    // to delete after connecting back-end
+/*    // to delete after connecting back-end
     for (const v in this.learningDays) {
       if (startOfDay(new Date(this.learningDays[v].date)) > new Date()) {
         this.addEvent(new Date(this.learningDays[v].date), this.learningDays[v].title, this.actions, colors.red, {
@@ -182,18 +190,20 @@ export class TrainingCalendarComponent implements OnInit {
           subjectId: this.learningDays[v].subjectId
         });
       }
-    }
+    }*/
     // TO-DO: get employees learning days
-/*    this.calendarService.getEmployeeLearningDays().subscribe(
+    this.calendarService.getEmployeeLearningDays().subscribe(
       res => {
         this.employeesLearningDays = res;
         this.filterOutUniqueEmployees();
+        this.loadingEmployees = false;
+        console.log(this.loadingEmployees);
       }
     ),
       error => {
       console.log(error.error.message);
-      };*/
-    this.filterOutUniqueEmployees(); // to delete after connecting back-end
+      };
+  /*  this.filterOutUniqueEmployees(); // to delete after connecting back-end*/
 }
 
   subjects = [
@@ -296,23 +306,6 @@ export class TrainingCalendarComponent implements OnInit {
     }
   }
 
-  eventTimesChanged({
-                      event,
-                      newStart,
-                      newEnd,
-                    }: CalendarEventTimesChangedEvent): void {
-    this.events = this.events.map((iEvent) => {
-      if (iEvent === event) {
-        return {
-          ...event,
-          start: newStart,
-          end: newEnd,
-        };
-      }
-      return iEvent;
-    });
-    this.handleEvent('Dropped or resized', event);
-  }
 
   handleEvent(action: string, event: CalendarEvent): void {
     this.router.navigateByUrl(`details/${event.meta.subjectId}`);
@@ -340,10 +333,6 @@ export class TrainingCalendarComponent implements OnInit {
 
   removeEvent(eventToRemove: CalendarEvent) {
     this.events = this.events.filter((event) => event !== eventToRemove);
-  }
-
-  setView(view: CalendarView) {
-    this.view = view;
   }
 
   closeOpenMonthViewDay() {

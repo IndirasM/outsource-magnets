@@ -15,7 +15,7 @@ export class TeamsService {
   private toLearnByTeam: string = 'toLearnByTeam/';
 
   private httpOptions = new HttpHeaders({
-    Authorization: 'Bearer ' + localStorage.getItem('token')
+    Authorization: 'Bearer ' + sessionStorage.getItem('user')
   });
 
   constructor(private httpClient: HttpClient) {
