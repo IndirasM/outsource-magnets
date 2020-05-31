@@ -14,7 +14,7 @@ export class CalendarService {
   private learningDaysUrl: string = 'learningdays/';
 
   private httpOptions = new HttpHeaders({
-    Authorization: 'Bearer ' + localStorage.getItem('token')
+    Authorization: 'Bearer ' + sessionStorage.getItem('user')
   });
 
   constructor(private httpClient: HttpClient) {}

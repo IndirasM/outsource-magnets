@@ -1,6 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { GraphService } from 'src/app/graph.service';
 
 @Component({
   selector: 'app-add-training',
@@ -10,17 +11,19 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 export class AddTrainingComponent implements OnInit {
 
   newTrainingForm: FormGroup;
-  options = [
-    'kek',
-    'kekistan'
-  ]
+  learningSubjects;
 
   constructor(
     public dialogRef: MatDialogRef<AddTrainingComponent>,
-    @Inject(MAT_DIALOG_DATA) public data
+    @Inject(MAT_DIALOG_DATA) public data,
+    private graphService: GraphService
   ) { }
 
   ngOnInit(): void {
+    this.graphService.fetchAllTrainings().subscribe(learningSubjects => {
+      this.learningSubjects = learningSubjects;
+    });
+
     this.newTrainingForm = new FormGroup({
       training: new FormGroup({
         subject: new FormControl(''),
@@ -34,6 +37,6 @@ export class AddTrainingComponent implements OnInit {
   }
 
   onSubmit() {
-    this.dialogRef.close(this.newTrainingForm);
+    this.dialogRef.close(this.newTrainingForm.value);
   }
 }
