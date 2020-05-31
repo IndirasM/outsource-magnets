@@ -39,12 +39,13 @@ import { TeamsComponent } from './main-container/teams/teams.component';
 import { AuthInterceptor } from './auth.interceptor';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { TeamDetailsComponent } from './main-container/teams/team-details/team-details.component';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatDialogModule } from '@angular/material/dialog'; 
 import { MatSnackBarModule } from '@angular/material/snack-bar'; 
 import { FormsModule} from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatSelectModule} from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -76,6 +77,7 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatListModule,
     MatFormFieldModule,
     MatInputModule,
+    MatAutocompleteModule,
     FlexLayoutModule,
     FormsModule,
     CommonModule,
@@ -94,6 +96,7 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatDialogModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatSelectModule,
     CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory })
   ],
   providers: [
