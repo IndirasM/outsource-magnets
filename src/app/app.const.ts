@@ -1,6 +1,6 @@
 export interface LearningDays {
   learningDayId: number;
-  subjectId: number,
+  subjectId: number;
   title: string;
   date: any;
 }
@@ -21,8 +21,8 @@ export interface GlobalLimits {
 }
 
 export interface UserLimits {
+  employeeId: number;
   limitId: number;
-  isGlobal: boolean;
   yearLimit: number;
   monthLimit: number;
   rowLimit: number;
@@ -39,10 +39,33 @@ export interface EmployeesLimits {
   rowLimit: number;
 }
 
-export class Limit {
-  limitId: number;
-  isGlobal: boolean;
+export interface SetGlobalLimitRequestModel {
   yearLimit: number;
   monthLimit: number;
   rowLimit: number;
+}
+
+export interface SetEmployeeLimits {
+  yearLimit: number;
+  monthLimit: number;
+  rowLimit: number;
+}
+
+export interface Team {
+  teamId: number;
+  name: string;
+  managerId: number;
+  managerName: string;
+}
+
+export interface LearnedSubjectsByTeam {
+  subjectId: number;
+  subjectName: string;
+  employees: string[];
+}
+
+export interface SubjectsToLearnByTeam {
+  subjectId: number;
+  subjectName: string;
+  employees: string[];
 }

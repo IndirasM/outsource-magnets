@@ -9,6 +9,7 @@ import { AddTrainingComponent } from './main-container/add-training/add-training
 import { TrainingDetailsComponent } from './main-container/training-graph/training-details/training-details.component';
 import { AuthGuard } from './auth.guard';
 import { TeamsComponent } from './main-container/teams/teams.component';
+import {TeamDetailsComponent} from "./main-container/teams/team-details/team-details.component";
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -18,8 +19,9 @@ const routes: Routes = [
     { path: "graph", component: TrainingGraphComponent },
     { path: "settings", component: SettingsComponent },
     { path: "add-training", component: AddTrainingComponent },
-    { path: "details/:id", component: TrainingDetailsComponent }
-  ]},
+    { path: "details/:id", component: TrainingDetailsComponent },
+    { path: "team-details/:name/:teamId", component: TeamDetailsComponent }
+    ]},
   { path: '**', component: NotFoundComponent }
 ];
 

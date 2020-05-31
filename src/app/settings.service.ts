@@ -1,5 +1,11 @@
 import { Injectable } from '@angular/core';
-import { EmployeesLimits, GlobalLimits, Limit, UserLimits} from './app.const';
+import {
+  EmployeesLimits,
+  GlobalLimits,
+  SetEmployeeLimits,
+  SetGlobalLimitRequestModel,
+  UserLimits
+} from './app.const';
 import {Observable, throwError} from 'rxjs';
 import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 import {catchError} from 'rxjs/operators';
@@ -41,8 +47,8 @@ export class SettingsService {
     });
   }
 
-  changeLimit(limit: Limit): Observable<Limit> {
-    return this.httpClient.post<Limit>(this.baseUrl + this.limitUrl, limit, {
+  changeGlobalLimit(limit: SetGlobalLimitRequestModel): Observable<SetGlobalLimitRequestModel> {
+    return this.httpClient.post<SetGlobalLimitRequestModel>(this.baseUrl + this.limitUrl, limit, {
       headers: this.httpOptions
     })
       .pipe(
@@ -50,8 +56,8 @@ export class SettingsService {
       );
   }
 
-  changeEmployeeLimit(employeeLimit: EmployeesLimits): Observable<EmployeesLimits> {
-    return this.httpClient.post<EmployeesLimits>(this.baseUrl + this.employeeLimitUrl, employeeLimit, {
+  changeEmployeeLimit(employeeId: number, employeeLimit: SetEmployeeLimits): Observable<SetEmployeeLimits> {
+    return this.httpClient.post<SetEmployeeLimits>(this.baseUrl + this.employeeLimitUrl + employeeId, employeeLimit, {
       headers: this.httpOptions
     })
       .pipe(

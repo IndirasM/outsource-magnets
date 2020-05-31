@@ -38,6 +38,7 @@ import { TeamsComponent } from './main-container/teams/teams.component';
 import { AuthInterceptor } from './auth.interceptor';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { TeamDetailsComponent } from './main-container/teams/team-details/team-details.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     AddTrainingComponent,
     TrainingDetailsComponent,
     NotFoundComponent,
-    TeamsComponent
+    TeamsComponent,
+    TeamDetailsComponent
   ],
   imports: [
     BrowserModule,
