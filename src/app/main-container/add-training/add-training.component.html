@@ -1,1 +1,31 @@
-<p>add-training works!</p>
+<div cdkFocusRegionstart class="container">
+    <h3>Create a new learning day</h3>
+    <form [formGroup]="newTrainingForm" (ngSubmit)="onSubmit()">
+        <div formGroupName="training">
+            <mat-form-field>
+                <input
+                    type="text"
+                    placeholder="Pick a topic"
+                    matInput
+                    formControlName="subject"
+                    [matAutocomplete]="auto">
+                <mat-autocomplete #auto="matAutocomplete">
+                    <mat-option *ngFor="let option of options" [value]="option">
+                      {{option}}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+            <div style="margin-left: 1%;">
+                OR 
+                <button type="button" color="accent" style="margin-left: 1rem;" mat-stroked-button [routerLink]="['/topic']" (click)="onNewTopic()">Create a new topic</button>
+            </div>
+            <mat-form-field>
+                <mat-label>Choose a date</mat-label>
+                <input matInput [matDatepicker]="date" formControlName="date">
+                <mat-datepicker-toggle matSuffix [for]="date"></mat-datepicker-toggle>
+                <mat-datepicker #date></mat-datepicker>
+            </mat-form-field>
+            <button mat-raised-button type="submit" color="primary">Submit</button>
+        </div>
+    </form>
+</div>
