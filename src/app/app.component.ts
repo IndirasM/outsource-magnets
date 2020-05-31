@@ -24,14 +24,9 @@ export class AppComponent implements OnInit {
   logIn(credentials) {
     if(credentials.username && credentials.password) {
       this.authService.logIn(credentials).subscribe((data: any) => {
+        console.log('oof')
         this.isLoggedIn = true;
         sessionStorage.setItem('user', data.token);
-      },
-      err => {
-        this.snackBar.open(err.error.message, 'Close', {
-          duration: 2000,
-          panelClass: ['snackbar-background']
-        });
       });
     }
   }
