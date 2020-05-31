@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
+import { Observable, throwError, of } from 'rxjs';
 import { EmployeesLearningDays, LearningDays } from './app.const';
 import { catchError} from 'rxjs/operators';
 
@@ -50,6 +50,10 @@ export class CalendarService {
     }
     window.alert(errorMessage);
     return throwError(errorMessage);
+  }
+
+  addLearningDay(formData) {
+    return of({});
   }
 
 }

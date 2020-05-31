@@ -1,7 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
-import { map, shareReplay } from 'rxjs/operators';
+import { map, shareReplay, take } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { InterceptorService } from '../interceptor.service';
 
@@ -24,7 +24,7 @@ export class MainContainerComponent implements OnInit {
   constructor(private breakpointObserver: BreakpointObserver, private router: Router, private interceptorService: InterceptorService) {}
 
   ngOnInit() {
-    this.interceptorService.logout$.subscribe(() => {
+    this.interceptorService.logout$.pipe(take(1)).subscribe(() => {
       this.logOut();
     });
 
@@ -34,4 +34,15 @@ export class MainContainerComponent implements OnInit {
   logOut() {
     this.logout.emit();
   }
+}
+
+
+export interface NewLearningDay {
+  date: string;
+  subjectId: number;
+}
+
+export interface LearningDayNotes {
+  learningDayId: number;
+  notes: string;
 }

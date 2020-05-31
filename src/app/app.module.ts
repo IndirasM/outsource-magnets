@@ -39,6 +39,10 @@ import { AuthInterceptor } from './auth.interceptor';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { TeamDetailsComponent } from './main-container/teams/team-details/team-details.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatDialogModule } from '@angular/material/dialog'; 
 
 @NgModule({
   declarations: [
@@ -79,6 +83,10 @@ import { TeamDetailsComponent } from './main-container/teams/team-details/team-d
     MatDividerModule,
     MatSnackBarModule,
     MatProgressSpinnerModule,
+    MatAutocompleteModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatDialogModule,
     CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory })
   ],
   providers: [
