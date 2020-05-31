@@ -1,3 +1,4 @@
+<ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#fff" type = "line-scale" [fullScreen] = "true"><p style="color: white" > Loading... </p></ngx-spinner>
 <section class="flex-line-container">
   <div>
     <h3 class="settings-header-text">Settings</h3>
@@ -14,21 +15,21 @@
         <form [formGroup]="myLimitsForm">
           <mat-form-field>
             <mat-label>Your yearly limit</mat-label>
-            <input matInput type="number" [value]="userLimits.yearLimit" formControlName="myYearlyLimit">
+            <input matInput type="number" formControlName="myYearlyLimit">
             <mat-hint *ngIf="showMyLimitsEditBtns">Please enter value between 0 and 30</mat-hint>
             <mat-error *ngIf="myLimitsForm.invalid">{{getYearlyLimitErrorMessage()}}</mat-error>
           </mat-form-field>
 
           <mat-form-field>
             <mat-label>Your monthly limit</mat-label>
-            <input matInput type="number" [value]="userLimits.monthLimit" formControlName="myMonthlyLimit">
+            <input matInput type="number" formControlName="myMonthlyLimit">
             <mat-hint *ngIf="showMyLimitsEditBtns">Please enter value between 0 and 10</mat-hint>
             <mat-error *ngIf="myLimitsForm.invalid">{{getMonthlyLimitsErrorMessage()}}</mat-error>
           </mat-form-field>
 
           <mat-form-field>
             <mat-label>Your in a row limit</mat-label>
-            <input matInput type="number" [value]="userLimits.rowLimit" formControlName="myRowLimit">
+            <input matInput type="number" formControlName="myRowLimit">
             <mat-hint *ngIf="showMyLimitsEditBtns">Please enter value between 0 and 5</mat-hint>
             <mat-error *ngIf="myLimitsForm.invalid">{{getInRowLimitsErrorMessage()}}</mat-error>
           </mat-form-field>
@@ -61,21 +62,21 @@
         <form [formGroup]="globalLimitsForm">
           <mat-form-field>
             <mat-label>Global yearly limit</mat-label>
-            <input matInput type="number" [value]="globalLimit.yearLimit" formControlName="globalYearlyLimit">
+            <input matInput type="number" formControlName="globalYearlyLimit">
             <mat-hint *ngIf="showGlobalLimitsEditBtns">Please enter value between 0 and 30</mat-hint>
             <mat-error *ngIf="globalLimitsForm.invalid">{{getYearlyLimitErrorMessage()}}</mat-error>
           </mat-form-field>
 
           <mat-form-field>
             <mat-label>Global monthly limit</mat-label>
-            <input matInput type="number" [value]="globalLimit.monthLimit" formControlName="globalMonthlyLimit">
+            <input matInput type="number" formControlName="globalMonthlyLimit">
             <mat-hint *ngIf="showGlobalLimitsEditBtns">Please enter value between 0 and 10</mat-hint>
             <mat-error *ngIf="globalLimitsForm.invalid">{{getMonthlyLimitsErrorMessage()}}</mat-error>
           </mat-form-field>
 
           <mat-form-field>
             <mat-label>Global in a row limit</mat-label>
-            <input matInput type="number" [value]="globalLimit.rowLimit" formControlName="globalRowLimit">
+            <input matInput type="number" formControlName="globalRowLimit">
             <mat-hint *ngIf="showGlobalLimitsEditBtns">Please enter value between 0 and 5</mat-hint>
             <mat-error *ngIf="globalLimitsForm.invalid">{{getInRowLimitsErrorMessage()}}</mat-error>
           </mat-form-field>

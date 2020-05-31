@@ -1,5 +1,4 @@
-<mat-spinner *ngIf="loading" style="margin: 1%"></mat-spinner>
-<div *ngIf="!loading">
+<ngx-spinner bdColor = "rgba(0, 0, 0, 0.8)" size = "medium" color = "#fff" type = "line-scale" [fullScreen] = "true"><p style="color: white" > Loading... </p></ngx-spinner>
   <section class="flex-line-container">
     <div>
       <h3 class="team-details-header-text">{{teamName}}&nbsp;team details</h3>
@@ -50,4 +49,4 @@
       </mat-accordion>
     </div>
   </section>
-</div>
+

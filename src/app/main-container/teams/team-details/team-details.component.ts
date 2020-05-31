@@ -4,6 +4,7 @@ import {LearnedSubjectsByTeam, SubjectsToLearnByTeam} from '../../../app.const';
 import {MatTableDataSource} from "@angular/material/table";
 import {throwError} from "rxjs";
 import {TeamsService} from "../../../teams.service";
+import {NgxSpinnerService} from "ngx-spinner";
 
 @Component({
   selector: 'app-team-details',
@@ -36,21 +37,19 @@ export class TeamDetailsComponent implements OnInit {
   loading: boolean = true;
 
   constructor(private route: ActivatedRoute,
-              private teamsService: TeamsService) { }
+              private teamsService: TeamsService,
+              private spinner: NgxSpinnerService) { }
 
   ngOnInit(): void {
     this.loading = true;
     this.teamName = this.route.snapshot.params['name'];
     this.teamId = this.route.snapshot.params['teamId'];
+    this.spinner.show();
+    this.getTeamSubjectsToLearn();
+    this.getTeamLearnedSubjects();
+  }
 
-    this.teamsService.getTeamLearnedSubjects(this.teamId).subscribe(
-      (data: any) => {
-        this.learnedSubjectsByTeam = data;
-      },
-      (err) => {
-        throwError(err);
-      },
-    );
+  getTeamSubjectsToLearn() {
     this.teamsService.getTeamSubjectsToLearn(this.teamId).subscribe(
       (data: any) => {
         this.subjectsToLearnByTeam = data;
@@ -64,4 +63,15 @@ export class TeamDetailsComponent implements OnInit {
     );
   }
 
+  getTeamLearnedSubjects() {
+    this.teamsService.getTeamLearnedSubjects(this.teamId).subscribe(
+      (data: any) => {
+        this.learnedSubjectsByTeam = data;
+        this.spinner.hide();
+      },
+      (err) => {
+        throwError(err);
+      },
+    );
+  }
 }
