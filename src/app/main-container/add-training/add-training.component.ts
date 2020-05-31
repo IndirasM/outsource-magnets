@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { GraphService } from 'src/app/graph.service';
 
@@ -26,8 +26,8 @@ export class AddTrainingComponent implements OnInit {
 
     this.newTrainingForm = new FormGroup({
       training: new FormGroup({
-        subject: new FormControl(''),
-        date: new FormControl('')
+        subject: new FormControl('', Validators.required),
+        date: new FormControl('', Validators.required)
       })
     })
   }
