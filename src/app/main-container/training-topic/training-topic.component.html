@@ -33,13 +33,6 @@
       </mat-form-field>
     </div>
     <div class="form-group">
-      <!--<mat-form-field class="date">
-        <mat-label>Choose a date</mat-label>
-        <input matInput [matDatepicker]="picker" [value]="date">
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
-      </mat-form-field>-->
-      <!-- <button mat-button class="button cancel">Cancel</button> -->
       <button mat-raised-button type="submit" class="button submit" [disabled]="!topicForm.valid"
         (click)="onSubmit()">Submit</button>
     </div>
