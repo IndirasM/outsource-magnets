@@ -23,8 +23,13 @@ export class TrainingDayComponent implements OnInit {
   notes: string = "";
   originalNotes: string = "";
   modified: boolean = false;
+  allowEditing: boolean = false;
 
   ngOnInit(): void {
+    if (!this.data.learningDay.employeeId) {
+      this.allowEditing = true;
+    }
+    console.log(this.allowEditing);
     if(this.data.learningDay.notes) {
       this.notes = this.data.learningDay.notes;
       this.originalNotes = this.notes;

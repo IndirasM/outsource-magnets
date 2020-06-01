@@ -5,7 +5,7 @@
     <div *ngIf="!addingNote" style="margin: 2%; margin-bottom: 0;">Notes</div>
     <div *ngIf="!addingNote" style="margin: 2%; margin-top: 1%;">{{notes}}</div>
     <div style="margin: 2%;">
-        <button mat-raised-button style="margin-right: 2%;" color="primary" (click)="addNote()" *ngIf="!addingNote">Edit notes</button>
+        <button mat-raised-button style="margin-right: 2%;" color="primary" (click)="addNote()" *ngIf="!addingNote && allowEditing">Edit notes</button>
         <button mat-raised-button color="accent" (click)="close()" *ngIf="!addingNote">Close</button>
     </div>
     <mat-form-field *ngIf="addingNote" style="margin: 2%;">

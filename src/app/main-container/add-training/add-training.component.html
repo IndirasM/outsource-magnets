@@ -1,4 +1,4 @@
-<div cdkFocusRegionstart class="container">
+<div cdkFocusRegionstart class="container" *ngIf="!loading">
     <h3>Create a new learning day</h3>
     <form [formGroup]="newTrainingForm" (ngSubmit)="onSubmit()">
         <div formGroupName="training">

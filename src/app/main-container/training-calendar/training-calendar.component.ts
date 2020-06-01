@@ -130,9 +130,9 @@ export class TrainingCalendarComponent implements OnInit {
         if (this.employeesLearningDays[v].employeeId === value && this.checked) {
           this.addEvent(new Date(this.employeesLearningDays[v].date), this.employeesLearningDays[v].employeeName + ': ' + this.employeesLearningDays[v].title, null, colors.blue, {
             employeeId: this.employeesLearningDays[v].employeeId,
-            learningDayId: null,
+            learningDayId: this.employeesLearningDays[v].learningDayId,
             subjectId: this.employeesLearningDays[v].subjectId,
-            notes: this.learningDays[v].notes
+            notes: this.employeesLearningDays[v].notes
           });
         }
     }
@@ -201,11 +201,30 @@ export class TrainingCalendarComponent implements OnInit {
 
 
   handleEvent(action: string, event: CalendarEvent): void {
-    console.log(event);
+    const existingDay = this.learningDays.find(day => day.learningDayId === event.meta.learningDayId);
+
+    const dialogRef = this.dialog.open(AddTrainingComponent, {
+      data: {
+        event,
+        learningDay: existingDay
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(formData => {
+      if(formData) {
+        this.calendarService.addLearningDay(formData).subscribe(() => {
+          this.ngOnInit();
+        });
+      }
+    });
+  }
+
+  openDayView(event: CalendarEvent) {
+    const existingDay = this.learningDays.find(day => day.learningDayId === event.meta.learningDayId);
     const dialogRef = this.dialog.open(TrainingDayComponent, {
       width: '500px',
       data: {
-        learningDay: this.learningDays.find(day => day.learningDayId === event.meta.learningDayId)
+        learningDay: existingDay ? existingDay : this.employeesLearningDays.find(day => day.learningDayId === event.meta.learningDayId)
       }
     });
     dialogRef.afterClosed().subscribe(modified => {
