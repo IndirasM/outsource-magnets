@@ -36,19 +36,28 @@ export class TrainingDetailsComponent implements OnInit {
     this.loading = true;
     this.id = this.route.snapshot.params['id'];
 
-    this.graphService.fetchTraining(this.id).subscribe(
-      (data: any) => {
-        this.currentTraining = data;
-        this.dataSource = new MatTableDataSource<any>(ELEMENT_DATA);
-        this.dataSource.paginator = this.paginator;
-      },
-      (err) => {
-        throwError(err);
-      },
-      () => {
-        this.loading = false;
-      }
-    );
+    // this.graphService.fetchTraining(this.id).subscribe(
+    //   (data: any) => {
+    //     this.currentTraining = data;
+    //     this.dataSource = new MatTableDataSource<any>(ELEMENT_DATA);
+    //     this.dataSource.paginator = this.paginator;
+    //   },
+    //   (err) => {
+    //     throwError(err);
+    //   },
+    //   () => {
+    //     this.loading = false;
+    //   }
+    // );
+    this.currentTraining = {
+      name: 'asdasd',
+      description: 'asd',
+
+    }
+    
+    this.dataSource = new MatTableDataSource<any>(ELEMENT_DATA);
+    this.dataSource.paginator = this.paginator;
+    this.loading = false;
   }
 
   onChangeSelectAll(event) {

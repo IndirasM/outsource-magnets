@@ -14,10 +14,10 @@ export class TrainingGraphComponent implements OnInit {
   entities: GraphEntity[] = [];
 
   ngOnInit(): void {
-    this.graphService.fetchAllTrainings().subscribe((res: UnmappedEntity[]) => {
+   /* this.graphService.fetchAllTrainings().subscribe((res: UnmappedEntity[]) => {
       this.mapEntities(res);
       this.mapLinks(res);
-    });
+    });*/
   }
 
   mapEntities(res: UnmappedEntity[]) {

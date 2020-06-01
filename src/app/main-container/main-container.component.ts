@@ -25,7 +25,7 @@ export class MainContainerComponent implements OnInit {
 
   ngOnInit() {
     this.interceptorService.logout$.pipe(take(1)).subscribe(() => {
-      this.logOut();
+      //this.logOut();
     });
 
     this.router.navigateByUrl('calendar');

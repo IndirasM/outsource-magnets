@@ -21,7 +21,7 @@ export class AuthInterceptor implements HttpInterceptor {
     return next.handle(request).pipe(
       catchError(err => {
         if(err.status != 404 && err.status >= 400) {
-          this.interceptorService.logout$.next();
+          //this.interceptorService.logout$.next();
           this.snackBar.open(err.error.message, 'Close', {
             duration: 2000,
             panelClass: ['snackbar-background']

@@ -1,58 +1,46 @@
 <div class="container">
   <h1>Create Topic</h1>
-  <!--subscriptionForm.value|json-->
   <form [formGroup]="topicForm">
     <div class="form-group">
-    <mat-form-field class="parentName">
-      <br />
+      <mat-form-field class="parentName">
+        <br />
         <mat-label>Parent Topic Name</mat-label>
-        <mat-select class="form-control" formControlName="parentName" id="parentName" [(ngModel)]="selectedValue" name="parentName">
-          <mat-option *ngFor="let food of foods" [value]="food.value">
-            {{food.viewValue}}
+        <mat-select class="form-control" formControlName="parentName" id="parentName" [(ngModel)]="selectedValue"
+          name="parentName">
+          <mat-option *ngFor="let parentTopic of parentTopic" [value]="parentTopic.value">
+            {{parentTopic.viewValue}}
           </mat-option>
         </mat-select>
-    </mat-form-field>
-  </div>
+      </mat-form-field>
+    </div>
     <div class="form-group">
       <mat-form-field class="name">
         <br />
         <mat-label>Name</mat-label>
-        <input class="form-control" required minlength="4" formControlName="name" id="name"
-               name="name"
-               matInput placeholder="Search or create a new topic"><!--[(ngModel)]="model.name" #name="ngModel"-->
-        <!--<div [hidden]="name.valid || name.pristine"
-             class="alert alert-danger">
-        </div>-->
-        <!--<div *ngIf="name.errors.required">
-          Name is required.
-        </div>
-        <div *ngIf="name.errors.minlength">
-          Name must be at least 4 characters long.
-        </div>-->
+        <input class="form-control" required minlength="4" formControlName="name" id="name" name="name" matInput
+          placeholder="Search or create a new topic">
+        <!--[(ngModel)]="model.name" #name="ngModel"-->
+        <mat-error *ngIf="topicForm.invalid">{{getErrorMessage()}}</mat-error>
       </mat-form-field>
     </div>
-
     <div class="form-group">
       <mat-form-field class="description">
         <br />
         <mat-label>Description</mat-label>
-        <textarea class="form-control" formControlName="description" id="description"
-               name="description" matInput placeholder="Describe a topic"></textarea>
+        <textarea class="form-control" formControlName="description" id="description" name="description" matInput
+          placeholder="Describe a topic"></textarea>
       </mat-form-field>
     </div>
-
     <div class="form-group">
       <!--<mat-form-field class="date">
         <mat-label>Choose a date</mat-label>
         <input matInput [matDatepicker]="picker" [value]="date">
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
-
-
       </mat-form-field>-->
-      <button mat-button class="button cancel">Cancel</button>
-      <button mat-button class="button ok" mat-stroked-button (click)="onSubmit()">Ok</button>
+      <!-- <button mat-button class="button cancel">Cancel</button> -->
+      <button mat-raised-button type="submit" class="button submit" [disabled]="!topicForm.valid"
+        (click)="onSubmit()">Submit</button>
     </div>
-
   </form>
 </div>
