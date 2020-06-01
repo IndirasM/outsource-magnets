@@ -82,12 +82,4 @@ export class TrainingTopicComponent implements OnInit {
       panelClass: ["snackbar-background"]
     });
   }
-
-  getErrorMessage() {
-    if (this.topicForm.hasError('required')) {
-      return 'You must enter a value';
-    }
-
-    return this.topicForm.hasError('topicForm') ? 'Not a valid name' : '';
-  }
 }
