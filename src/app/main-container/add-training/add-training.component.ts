@@ -12,13 +12,17 @@ export class AddTrainingComponent implements OnInit {
 
   newTrainingForm: FormGroup;
   learningSubjects;
+  subject;
+  loading: boolean;
 
   constructor(
     public dialogRef: MatDialogRef<AddTrainingComponent>,
+    @Inject(MAT_DIALOG_DATA) public data,
     private graphService: GraphService
   ) { }
 
   ngOnInit(): void {
+    console.log(this.data);
     this.graphService.fetchAllTrainings().subscribe(learningSubjects => {
       this.learningSubjects = learningSubjects;
     });
@@ -29,14 +33,20 @@ export class AddTrainingComponent implements OnInit {
         date: new FormControl('', Validators.required)
       })
     })
+
+    if (this.data) {
+      this.loading = true;
+      this.graphService.fetchTraining(this.data.learningDay.subjectId).subscribe(res => {
+        this.subject = res;
+        this.newTrainingForm.get('training').get('date').setValue(this.data.event.start);
+        this.newTrainingForm.get('training').get('subject').setValue(this.learningSubjects.find(sub => sub.id === this.subject.id));
+      }, undefined, () => { this.loading = false })
+      
+    }
   }
 
   onNewTopic() {
     this.dialogRef.close();
-  }
-
-  getOptionText(option) {
-    return option.name;
   }
 
   onSubmit() {

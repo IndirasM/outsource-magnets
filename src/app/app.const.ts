@@ -12,6 +12,8 @@ export interface EmployeesLearningDays {
   title: string;
   date: string;
   subjectId: number;
+  learningDayId: number;
+  notes: string;
 }
 
 export interface GlobalLimits {
