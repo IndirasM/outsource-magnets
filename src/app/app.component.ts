@@ -17,7 +17,7 @@ export class AppComponent implements OnInit {
     if(sessionStorage.getItem('user')) {
       this.isLoggedIn = true;
     } else {
-      this.isLoggedIn = true;
+      this.isLoggedIn = false;
     }
   }
 
