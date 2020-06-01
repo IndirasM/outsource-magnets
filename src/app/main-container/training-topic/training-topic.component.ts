@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Validators, FormBuilder, FormGroup, FormControl} from '@angular/forms';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import { TopicService } from 'src/app/topic.service';
+import { GraphService } from 'src/app/graph.service';
 
 interface parentTopic {
   value: string;
@@ -26,12 +28,7 @@ export class TrainingTopicComponent implements OnInit {
 
   });
 
-  parentTopic: parentTopic[] = [
-    {value: 'it-0', viewValue: 'Assembly x84'},
-    {value: 'job-1', viewValue: 'Darbo Sauga'},
-    {value: 'culture-2', viewValue: 'Panetkiu kultura'}
-  ];
-
+  subjects;
 
   topic: any[] = [ {
     subjectId: '1',
@@ -62,24 +59,29 @@ export class TrainingTopicComponent implements OnInit {
   user: any;
   model: any;
 
-  constructor(private fb: FormBuilder, private _formBuilder: FormBuilder, private _snackBar: MatSnackBar) {
+  constructor(private fb: FormBuilder, private _formBuilder: FormBuilder, private _snackBar: MatSnackBar, private topicService: TopicService, private graphService: GraphService) {
     this.topicForm = fb.group({
       name: ['', Validators.required],
-      description: [''],
-      parentName: [''],
+      description: ['', Validators.required],
+      parentId: '',
     });
   }
 
   ngOnInit() {
+    this.graphService.fetchAllTrainings().subscribe(data => {
+      this.subjects = data;
+    })
   }
 
   onSubmit() {
     this.user = this.topicForm.value;
-    console.log(this.user);
 
-    this._snackBar.open("Successfully submited a topic", "Close", {
-      duration: 2000,
-      panelClass: ["snackbar-background"]
+    this.topicService.createSubject(this.user).subscribe(() => {
+      this._snackBar.open("Success!", "Close", {
+        duration: 2000,
+        panelClass: ["snackbar-background"]
+      });
     });
+
   }
 }
