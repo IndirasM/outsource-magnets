@@ -49,6 +49,11 @@ export class TrainingDetailsComponent implements OnInit {
         this.loading = false;
       }
     );
+    this.currentTraining = {
+      name: 'asdasd',
+      description: 'asd',
+
+    }
   }
 
   onChangeSelectAll(event) {
