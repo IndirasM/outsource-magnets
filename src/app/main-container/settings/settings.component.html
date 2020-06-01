@@ -34,7 +34,7 @@
             <mat-error *ngIf="myLimitsForm.invalid">{{getInRowLimitsErrorMessage()}}</mat-error>
           </mat-form-field>
           <br>
-          <button id="edit-my-limits" class="btn-diff" mat-raised-button *ngIf="userLimits.isBoss" (click)="enableMyLimitsForm()">
+          <button id="edit-my-limits" class="btn-diff" mat-raised-button *ngIf="userLimits && userLimits.isBoss" (click)="enableMyLimitsForm()">
             Edit
           </button>
           <button class="btn-diff" mat-raised-button *ngIf="showMyLimitsEditBtns" type="submit" [disabled]="!myLimitsForm.valid" (click)="saveMyLimits()">
@@ -51,7 +51,7 @@
   </div>
 </section>
 <br>
-<section *ngIf="userLimits.isBoss">
+<section *ngIf="userLimits && userLimits.isBoss">
   <div>
     <mat-accordion>
       <mat-expansion-panel>
