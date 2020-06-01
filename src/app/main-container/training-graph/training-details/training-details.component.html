@@ -50,15 +50,17 @@
         </div>
     </div>
   <mat-divider></mat-divider>
-  <div>
+  <div style="margin-top: 1%;">
     <p>Suggest this subject to your employees</p>
-    <div>
-      <mat-checkbox (change)="onChangeSelectAll($event)">Select All</mat-checkbox>
+    <div fxLayout="row">
+      <div>
+        <mat-checkbox (change)="onChangeSelectAll($event)">Select All</mat-checkbox>
+      </div>
+      <div *ngFor="let employee of employees" style="margin-left: 2%">
+        <mat-checkbox [checked]="employee.checked" (change)="changeValue($event, employee.id)">{{employee.name}}</mat-checkbox>
+      </div>
     </div>
-    <div *ngFor="let employee of employees">
-      <mat-checkbox [checked]="employee.checked" (change)="changeValue($event, employee.id)">{{employee.name}}</mat-checkbox>
-    </div>
-    <div>
+    <div style="margin-top: 1%;">
       <button mat-raised-button (click)="saveSuggestedSubjects()">Suggest</button>
     </div>
   </div>
