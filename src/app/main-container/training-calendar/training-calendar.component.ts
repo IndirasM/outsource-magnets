@@ -203,15 +203,14 @@ export class TrainingCalendarComponent implements OnInit {
     const dialogRef = this.dialog.open(AddTrainingComponent, {
       data: {
         event,
-        learningDay: existingDay
+        learningDay: existingDay,
+        edit: true
       }
     });
 
     dialogRef.afterClosed().subscribe(formData => {
       if(formData) {
-        this.calendarService.addLearningDay(formData).subscribe(() => {
-          this.ngOnInit();
-        });
+        this.ngOnInit();
       }
     });
   }
