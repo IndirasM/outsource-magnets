@@ -1,5 +1,17 @@
 <div cdkFocusRegionstart class="container" *ngIf="!loading">
     <h3>Create a new learning day</h3>
+  <div>
+    <mat-accordion>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>Suggested subjects</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div *ngFor="let subject of filteredSuggestedSubjects">
+          <p>{{subject.subjectName}}</p>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
     <form [formGroup]="newTrainingForm" (ngSubmit)="onSubmit()">
         <div formGroupName="training">
             <mat-form-field>
