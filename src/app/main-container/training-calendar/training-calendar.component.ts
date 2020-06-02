@@ -59,7 +59,9 @@ export class TrainingCalendarComponent implements OnInit {
 
   constructor(private calendarService: CalendarService, private router: Router, public dialog: MatDialog, private spinner: NgxSpinnerService) {}
   ngOnInit(): void {
+    this.uniqueEmployees = [];
     this.events = [];
+    this.closeOpenMonthViewDay();
     this.spinner.show();
     this.getUserLearningDays();
     this.getUserEmployeesLearningDays();
@@ -233,6 +235,7 @@ export class TrainingCalendarComponent implements OnInit {
   deleteEvent(eventToDelete: CalendarEvent): void {
     this.removeEvent(eventToDelete);
     this.calendarService.deleteLearningDay(eventToDelete.meta.learningDayId).subscribe();
+    this.closeOpenMonthViewDay();
   }
 
   addEvent(date: Date, title: string, actions: CalendarEventAction[], color: any, meta: any): void {
