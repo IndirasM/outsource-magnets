@@ -28,7 +28,6 @@ export class AddTrainingComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log(this.data);
     this.getSuggestedSubjects();
     this.graphService.fetchAllTrainings().subscribe(learningSubjects => {
       this.learningSubjects = learningSubjects;
