@@ -13,9 +13,9 @@
             <h3>People, who trained</h3>
             <div class="mat-elevation-z8">
                 <table mat-table [dataSource]="dataSource">
-                  <ng-container matColumnDef="name">
+                  <ng-container matColumnDef="employeeName">
                     <th mat-header-cell *matHeaderCellDef> Name </th>
-                    <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                    <td mat-cell *matCellDef="let element"> {{element.employeeName}} </td>
                   </ng-container>
                   <ng-container matColumnDef="date">
                     <th mat-header-cell *matHeaderCellDef> Completed on </th>
@@ -33,9 +33,9 @@
             <h3>Teams, which trained</h3>
             <div class="mat-elevation-z8">
                 <table mat-table [dataSource]="dataSource">
-                  <ng-container matColumnDef="name">
+                  <ng-container matColumnDef="employeeName">
                     <th mat-header-cell *matHeaderCellDef> Name </th>
-                    <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                    <td mat-cell *matCellDef="let element"> {{element.employeeName}} </td>
                   </ng-container>
                   <ng-container matColumnDef="date">
                     <th mat-header-cell *matHeaderCellDef> Completed on </th>
@@ -52,7 +52,7 @@
   <mat-divider></mat-divider>
   <div style="margin-top: 1%;">
     <p>Suggest this subject to your employees</p>
-    <div fxLayout="row">
+    <div fxLayout.sm="column" fxLayout="row">
       <div>
         <mat-checkbox (change)="onChangeSelectAll($event)">Select All</mat-checkbox>
       </div>
@@ -67,7 +67,7 @@
   </div>
     <h3 style="margin-top: 1%;">Comments</h3>
     <mat-divider></mat-divider>
-    <div *ngFor="let comment of currentTraining.comments">
+    <div *ngFor="let comment of comments">
         <div style="margin-top: 1%;"><b>User:</b> {{comment.name}}</div>
         <div style="margin-top: 1%; margin-bottom: 1%;">{{comment.text}}</div>
         <mat-divider></mat-divider>

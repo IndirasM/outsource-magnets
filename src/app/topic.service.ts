@@ -17,4 +17,10 @@ export class TopicService {
       headers: this.httpOptions
     })
   }
+
+  getLearningDaysBySubject(id) {
+    return this.httpClient.get(`http://localhost:8080/api/learningDays/bySubjectId/${id}`, {
+      headers: this.httpOptions
+    });
+  }
 }
