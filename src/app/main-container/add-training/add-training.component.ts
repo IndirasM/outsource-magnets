@@ -22,11 +22,6 @@ export class AddTrainingComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log(this.data);
-    this.graphService.fetchAllTrainings().subscribe(learningSubjects => {
-      this.learningSubjects = learningSubjects;
-    });
-
     this.newTrainingForm = new FormGroup({
       training: new FormGroup({
         subject: new FormControl('', Validators.required),
@@ -34,14 +29,22 @@ export class AddTrainingComponent implements OnInit {
       })
     })
 
+    this.graphService.fetchAllTrainings().subscribe(learningSubjects => {
+      this.learningSubjects = learningSubjects;
+      this.prefill();
+    });
+  }
+
+  prefill() {
     if (this.data) {
       this.loading = true;
       this.graphService.fetchTraining(this.data.learningDay.subjectId).subscribe(res => {
         this.subject = res;
-        this.newTrainingForm.get('training').get('date').setValue(this.data.event.start);
+        if(this.data.event && this.data.event.start) {
+          this.newTrainingForm.get('training').get('date').setValue(this.data.event.start);
+        }
         this.newTrainingForm.get('training').get('subject').setValue(this.learningSubjects.find(sub => sub.id === this.subject.id));
-      }, undefined, () => { this.loading = false })
-      
+      }, undefined, () => { this.loading = false })  
     }
   }
 
