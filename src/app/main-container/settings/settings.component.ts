@@ -9,6 +9,7 @@ import {
 import {FormGroup, FormControl, Validators, FormArray} from '@angular/forms';
 import {SettingsService} from '../../settings.service';
 import {NgxSpinnerService} from 'ngx-spinner';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-settings',
@@ -27,7 +28,6 @@ export class SettingsComponent implements OnInit {
   showGlobalLimitsEditBtns = false;
   showEmployeeLimitsEditBtns = false;
   hideEmployeeLimitEditBtn = false;
-  successMessage = false;
   myLimitsForm = new FormGroup({
     myYearlyLimit: new FormControl('', [Validators.required, Validators.min(0), Validators.max(30)]),
     myMonthlyLimit: new FormControl('', [Validators.required, Validators.min(0), Validators.max(10)]),
@@ -38,12 +38,19 @@ export class SettingsComponent implements OnInit {
     globalMonthlyLimit: new FormControl('', [Validators.required, Validators.min(0), Validators.max(10)]),
     globalRowLimit: new FormControl('', [Validators.required, Validators.min(0), Validators.max(5)]),
   });
+  allEmployeesLimitsForm = new FormGroup({
+    allEmployeesYearlyLimit: new FormControl('', [Validators.required, Validators.min(0), Validators.max(30)]),
+    allEmployeesMonthlyLimit: new FormControl('', [Validators.required, Validators.min(0), Validators.max(10)]),
+    allEmployeesRowLimit: new FormControl('', [Validators.required, Validators.min(0), Validators.max(5)]),
+  });
 
   employeesLimitsFormArray = new FormArray([]);
   setGlobalLimit: SetGlobalLimitRequestModel;
   employeeLimit: SetEmployeeLimits;
+  allEmployeesLimits: SetGlobalLimitRequestModel;
   constructor(private settingsService: SettingsService,
-              private spinner: NgxSpinnerService) { }
+              private spinner: NgxSpinnerService,
+              private snackBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.spinner.show();
@@ -133,6 +140,39 @@ export class SettingsComponent implements OnInit {
     this.showEmployeeLimitsEditBtns = !this.showEmployeeLimitsEditBtns;
   }
 
+  openSnackBar(): void {
+    this.snackBar.open('Limits saved!', '', {
+      duration: 3000,
+    });
+  }
+
+  saveAllEmployeesLimits(): void {
+    this.allEmployeesLimits = {
+      yearLimit: this.allEmployeesLimitsForm.get('allEmployeesYearlyLimit').value,
+      monthLimit: this.allEmployeesLimitsForm.get('allEmployeesMonthlyLimit').value,
+      rowLimit: this.allEmployeesLimitsForm.get('allEmployeesRowLimit').value
+    };
+    this.settingsService
+      .changeAllEmployeesLimits(this.allEmployeesLimits)
+      .subscribe(employeeLimit => { this.spinner.show();
+        this.employeesLimitsFormArray.clear();
+        for (const index in this.employeesLimits) {
+        this.employeesLimits[index] = {
+          employeeId: this.employeesLimits[index].employeeId,
+          employeeName: this.employeesLimits[index].employeeName,
+          limitId: this.employeesLimits[index].limitId,
+          isGlobal: false,
+          yearLimit: employeeLimit.yearLimit,
+          monthLimit: employeeLimit.monthLimit,
+          rowLimit: employeeLimit.rowLimit
+          };
+        this.addEmployee(this.employeesLimits[index]);
+        }
+      this.employeesLimitsFormArray.disable();
+      this.spinner.hide(); });
+    this.openSnackBar();
+  }
+
   cancelMyLimitsEdit(): void {
     this.myLimitsForm.disable();
     this.showMyLimitsEditBtns = !this.showMyLimitsEditBtns;
@@ -179,13 +219,13 @@ export class SettingsComponent implements OnInit {
 
   saveMyLimits(): void {
     this.employeeLimit = {
+      employeeId: this.userLimits.employeeId,
       yearLimit: this.myLimitsForm.get('myYearlyLimit').value,
       monthLimit: this.myLimitsForm.get('myMonthlyLimit').value,
       rowLimit: this.myLimitsForm.get('myRowLimit').value
     };
-    console.log(this.employeeLimit);
-    /*this.settingsService
-      .changeEmployeeLimit(this.userLimits.employeeId, this.employeeLimit)
+    this.settingsService
+      .changeEmployeeLimit(this.employeeLimit)
       .subscribe(limit =>  this.userLimits = {
       employeeId: this.userLimits.employeeId,
       limitId: this.userLimits.limitId,
@@ -193,14 +233,10 @@ export class SettingsComponent implements OnInit {
       monthLimit: limit.monthLimit,
       rowLimit: limit.rowLimit,
       isBoss: this.userLimits.isBoss
-    });*/
+    });
     this.showMyLimitsEditBtns = !this.showMyLimitsEditBtns;
     this.myLimitsForm.disable();
-    this.successMessage = !this.successMessage;
-    document.getElementById('edit-my-limits').classList.remove('hide');
-    setTimeout(function() {
-      this.successMessage = !this.successMessage;
-    }.bind(this), 5000);
+    this.openSnackBar();
   }
 
   saveGlobalLimits(): void {
@@ -209,32 +245,29 @@ export class SettingsComponent implements OnInit {
       monthLimit: this.globalLimitsForm.get('globalMonthlyLimit').value,
       rowLimit: this.globalLimitsForm.get('globalRowLimit').value
     };
-    console.log(this.setGlobalLimit);
-/*    this.settingsService
+    this.settingsService
       .changeGlobalLimit(this.setGlobalLimit)
       .subscribe(limit =>  this.globalLimit = {
         limitId: this.globalLimit.limitId,
         yearLimit: limit.yearLimit,
         monthLimit: limit.monthLimit,
         rowLimit: limit.rowLimit
-      });*/
+      });
     this.globalLimitsForm.disable();
     this.showGlobalLimitsEditBtns = !this.showGlobalLimitsEditBtns;
-    this.successMessage = !this.successMessage;
     document.getElementById('edit-global-limits').classList.remove('hide');
-    setTimeout(function() {
-      this.successMessage = !this.successMessage;
-    }.bind(this), 5000);
+    this.openSnackBar();
   }
 
   saveEmployeeLimits(index: number, form: FormGroup): void {
     this.employeeLimit = {
+      employeeId: form.get('employeeId').value,
       yearLimit: form.get('employeeYearlyLimit').value,
       monthLimit: form.get('employeeMonthlyLimit').value,
       rowLimit: form.get('employeeRowLimit').value
     };
-/*    this.settingsService
-      .changeEmployeeLimit(form.get('employeeId').value, this.employeeLimit)
+    this.settingsService
+      .changeEmployeeLimit(this.employeeLimit)
       .subscribe(employeeLimit =>  this.employeesLimits[index] = {
         employeeId: this.employeesLimits[index].employeeId,
         employeeName: this.employeesLimits[index].employeeName,
@@ -243,43 +276,57 @@ export class SettingsComponent implements OnInit {
         yearLimit: employeeLimit.yearLimit,
         monthLimit: employeeLimit.monthLimit,
         rowLimit: employeeLimit.rowLimit
-      });*/
-    console.log(this.employeeLimit);
+      });
     this.cancelEmployeeLimitsEdit();
-    this.successMessage = !this.successMessage;
-    setTimeout(function() {
-      this.successMessage = !this.successMessage;
-    }.bind(this), 5000);
+    this.openSnackBar();
   }
 
   getYearlyLimitErrorMessage() {
-    if (this.myLimitsForm.controls.myYearlyLimit.hasError('required') || this.globalLimitsForm.controls.globalYearlyLimit.hasError('required')) {
+    if (this.myLimitsForm.controls.myYearlyLimit.hasError('required')
+      || this.globalLimitsForm.controls.globalYearlyLimit.hasError('required')
+      || this.allEmployeesLimitsForm.controls.allEmployeesYearlyLimit.hasError('required')) {
       return 'You must enter a value';
-    } else if (this.myLimitsForm.controls.myYearlyLimit.hasError('min') || this.globalLimitsForm.controls.globalYearlyLimit.hasError('min')) {
+    } else if (this.myLimitsForm.controls.myYearlyLimit.hasError('min')
+      || this.globalLimitsForm.controls.globalYearlyLimit.hasError('min')
+      || this.allEmployeesLimitsForm.controls.allEmployeesYearlyLimit.hasError('min')) {
       return 'Minimum value cannot be lower than 0';
-    } else if (this.myLimitsForm.controls.myYearlyLimit.hasError('max') || this.globalLimitsForm.controls.globalYearlyLimit.hasError('max')) {
+    } else if (this.myLimitsForm.controls.myYearlyLimit.hasError('max')
+      || this.globalLimitsForm.controls.globalYearlyLimit.hasError('max')
+      || this.allEmployeesLimitsForm.controls.allEmployeesYearlyLimit.hasError('max')) {
       return  'Maximum value for this field is 30';
     }
     return '';
   }
 
   getMonthlyLimitsErrorMessage() {
-    if (this.myLimitsForm.controls.myMonthlyLimit.hasError('required') || this.globalLimitsForm.controls.globalMonthlyLimit.hasError('required')) {
+    if (this.myLimitsForm.controls.myMonthlyLimit.hasError('required')
+      || this.globalLimitsForm.controls.globalMonthlyLimit.hasError('required')
+      || this.allEmployeesLimitsForm.controls.allEmployeesMonthlyLimit.hasError('required')) {
       return 'You must enter a value';
-    } else if (this.myLimitsForm.controls.myMonthlyLimit.hasError('min') || this.globalLimitsForm.controls.globalMonthlyLimit.hasError('min')) {
+    } else if (this.myLimitsForm.controls.myMonthlyLimit.hasError('min')
+      || this.globalLimitsForm.controls.globalMonthlyLimit.hasError('min')
+      || this.allEmployeesLimitsForm.controls.allEmployeesMonthlyLimit.hasError('min')) {
       return 'Minimum value cannot be lower than 0';
-    } else if (this.myLimitsForm.controls.myMonthlyLimit.hasError('max') || this.globalLimitsForm.controls.globalMonthlyLimit.hasError('max')) {
+    } else if (this.myLimitsForm.controls.myMonthlyLimit.hasError('max')
+      || this.globalLimitsForm.controls.globalMonthlyLimit.hasError('max')
+      || this.allEmployeesLimitsForm.controls.allEmployeesMonthlyLimit.hasError('max')) {
       return  'Maximum value for this field is 10';
     }
     return '';
   }
 
   getInRowLimitsErrorMessage() {
-    if (this.myLimitsForm.controls.myRowLimit.hasError('required') || this.globalLimitsForm.controls.globalRowLimit.hasError('required')) {
+    if (this.myLimitsForm.controls.myRowLimit.hasError('required')
+      || this.globalLimitsForm.controls.globalRowLimit.hasError('required')
+      || this.allEmployeesLimitsForm.controls.allEmployeesRowLimit.hasError('required')) {
       return 'You must enter a value';
-    } else if (this.myLimitsForm.controls.myRowLimit.hasError('min') || this.globalLimitsForm.controls.globalRowLimit.hasError('min')) {
+    } else if (this.myLimitsForm.controls.myRowLimit.hasError('min')
+      || this.globalLimitsForm.controls.globalRowLimit.hasError('min')
+      || this.allEmployeesLimitsForm.controls.allEmployeesRowLimit.hasError('min')) {
       return 'Minimum value cannot be lower than 0';
-    } else if (this.myLimitsForm.controls.myRowLimit.hasError('max') || this.globalLimitsForm.controls.globalRowLimit.hasError('max')) {
+    } else if (this.myLimitsForm.controls.myRowLimit.hasError('max')
+      || this.globalLimitsForm.controls.globalRowLimit.hasError('max')
+      || this.allEmployeesLimitsForm.controls.allEmployeesRowLimit.hasError('max')) {
       return  'Maximum value for this field is 5';
     }
     return '';

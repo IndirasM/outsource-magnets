@@ -16,11 +16,12 @@ import {catchError} from 'rxjs/operators';
 export class SettingsService {
 
   private baseUrl: string = 'http://localhost:8080/api/';
-  private setGlobalLimitUrl: string = 'limit/';
-  private employeeLimitUrl: string = 'employeeLimit/';
+  private setGlobalLimitUrl: string = 'limit/setGlobal/';
+  private employeeLimitUrl: string = 'limit/set/';
   private getGlobalLimitsUrl: string = 'limit/global/';
   private userLimitsUrl: string = 'limit/';
   private employeesLimitsUrl: string = 'limit/staffers/';
+  private allEmployeesLimitsUrl: string = 'limit/setBulk/';
 
   private httpOptions = new HttpHeaders({
     Authorization: 'Bearer ' + sessionStorage.getItem('user')
@@ -56,8 +57,17 @@ export class SettingsService {
       );
   }
 
-  changeEmployeeLimit(employeeId: number, employeeLimit: SetEmployeeLimits): Observable<SetEmployeeLimits> {
-    return this.httpClient.post<SetEmployeeLimits>(this.baseUrl + this.employeeLimitUrl + employeeId, employeeLimit, {
+  changeEmployeeLimit(employeeLimit: SetEmployeeLimits): Observable<SetEmployeeLimits> {
+    return this.httpClient.post<SetEmployeeLimits>(this.baseUrl + this.employeeLimitUrl, employeeLimit, {
+      headers: this.httpOptions
+    })
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+  changeAllEmployeesLimits(allEmployeesLimits: SetGlobalLimitRequestModel): Observable<SetGlobalLimitRequestModel> {
+    return this.httpClient.post<SetGlobalLimitRequestModel>(this.baseUrl + this.allEmployeesLimitsUrl, allEmployeesLimits, {
       headers: this.httpOptions
     })
       .pipe(

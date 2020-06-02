@@ -13,24 +13,9 @@ import {NgxSpinnerService} from "ngx-spinner";
 })
 export class TeamDetailsComponent implements OnInit {
 
-  learnedSubjectsByTeam: LearnedSubjectsByTeam[] = [
-    {subjectId: 1, subjectName: 'OO', employees: ['One', 'Two', 'Three', 'Four']},
-    {subjectId: 2, subjectName: 'Java for Beginners', employees: ['One', 'Two', 'Three', 'Four', 'Five', 'Six']},
-    {subjectId: 3, subjectName: 'C#', employees: ['One', 'Three', 'Four', 'Five', 'Six']},
-    {subjectId: 4, subjectName: 'Mentoring', employees: ['One', 'Three']},
-    {subjectId: 5, subjectName: 'Leadership', employees: ['Three', 'Four']},
-    {subjectId: 6, subjectName: 'Data Security', employees: ['One', 'Three', 'Four']},
-    {subjectId: 7, subjectName: 'Communication', employees: ['One', 'Two', 'Three', 'Four', 'Five', 'Six']},
-    {subjectId: 8, subjectName: 'Advanced Java', employees: ['One', 'Three', 'Four', 'Five']},
-];
+  learnedSubjectsByTeam: LearnedSubjectsByTeam[];
 
-  subjectsToLearnByTeam: SubjectsToLearnByTeam[] = [
-    {subjectId: 1, subjectName: 'OO', employees: ['Five', 'Six']},
-    {subjectId: 3, subjectName: 'C#', employees: ['Two']},
-    {subjectId: 4, subjectName: 'Mentoring', employees: ['Two', 'Four']},
-    {subjectId: 5, subjectName: 'Leadership', employees: ['One']},
-    {subjectId: 6, subjectName: 'Data Security', employees: ['Two', 'Five', 'Six']},
-  ];
+  subjectsToLearnByTeam: SubjectsToLearnByTeam[];
 
   teamId: number;
   teamName: string;

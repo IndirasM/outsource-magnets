@@ -96,10 +96,7 @@ export class TrainingCalendarComponent implements OnInit {
       res => {
         this.employeesLearningDays = res;
         this.filterOutUniqueEmployees();
-        setTimeout(() => {
-          /** spinner ends after 5 seconds */
-          this.spinner.hide();
-        }, 1000);
+        this.spinner.hide();
       }
     ),
       error => {
