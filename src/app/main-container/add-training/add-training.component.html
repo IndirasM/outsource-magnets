@@ -1,7 +1,7 @@
 <div cdkFocusRegionstart class="container" *ngIf="!loading">
     <h3>Create a new learning day</h3>
   <div>
-    <mat-accordion>
+    <mat-accordion style="margin: 1%">
       <mat-expansion-panel>
         <mat-expansion-panel-header>
           <mat-panel-title>Suggested subjects</mat-panel-title>
@@ -19,17 +19,6 @@
                 <mat-select formControlName="subject">
                     <mat-option *ngFor="let learningSubject of learningSubjects" [value]="learningSubject">{{learningSubject.name}}</mat-option>
                 </mat-select>
-                <!-- <input
-                    type="text"
-                    placeholder="Pick a topic"
-                    matInput
-                    formControlName="subject"
-                    [matAutocomplete]="auto">
-                <mat-autocomplete #auto="matAutocomplete" [displayWith]="getOptionText">
-                    <mat-option *ngFor="let learningSubject of learningSubjects" [value]="learningSubject">
-                      {{learningSubject.name}}
-                    </mat-option>
-                </mat-autocomplete> -->
             </mat-form-field>
             <div style="margin-left: 1%;">
                 OR 
