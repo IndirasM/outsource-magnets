@@ -44,8 +44,6 @@
             Cancel
           </button>
         </form>
-        <br>
-        <p class="success-message" *ngIf="successMessage">Limit was successfully changed</p>
       </mat-expansion-panel>
     </mat-accordion>
   </div>
@@ -92,8 +90,6 @@
           </button>
 
         </form>
-        <br>
-        <p class="success-message" *ngIf="successMessage">Limit was successfully changed</p>
       </mat-expansion-panel>
     </mat-accordion>
   </div>
@@ -106,6 +102,37 @@
 <section>
   <div>
     <mat-accordion>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>Set Limits To All Employees</mat-panel-title>
+        </mat-expansion-panel-header>
+        <form [formGroup]="allEmployeesLimitsForm">
+          <mat-form-field>
+            <mat-label>Global yearly limit</mat-label>
+            <input matInput type="number" formControlName="allEmployeesYearlyLimit">
+            <mat-hint>Please enter value between 0 and 30</mat-hint>
+            <mat-error *ngIf="allEmployeesLimitsForm.invalid">{{getYearlyLimitErrorMessage()}}</mat-error>
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Global monthly limit</mat-label>
+            <input matInput type="number" formControlName="allEmployeesMonthlyLimit">
+            <mat-hint>Please enter value between 0 and 10</mat-hint>
+            <mat-error *ngIf="allEmployeesLimitsForm.invalid">{{getMonthlyLimitsErrorMessage()}}</mat-error>
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Global in a row limit</mat-label>
+            <input matInput type="number" formControlName="allEmployeesRowLimit">
+            <mat-hint>Please enter value between 0 and 5</mat-hint>
+            <mat-error *ngIf="allEmployeesLimitsForm.invalid">{{getInRowLimitsErrorMessage()}}</mat-error>
+          </mat-form-field>
+          <br>
+          <button class="btn-diff" mat-raised-button type="submit" [disabled]="!allEmployeesLimitsForm.valid" (click)="saveAllEmployeesLimits()">
+            Save
+          </button>
+        </form>
+      </mat-expansion-panel>
       <div *ngFor="let employee of employeesLimitsFormArray.controls; index as i">
       <mat-expansion-panel (closed)="handleIfClosedWhileInEditMode(); patchEmployeeLimitsValue(i, employee)">
         <mat-expansion-panel-header>

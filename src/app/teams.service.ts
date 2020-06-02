@@ -10,9 +10,9 @@ import {templateJitUrl} from "@angular/compiler";
 export class TeamsService {
 
   private baseUrl: string = 'http://localhost:8080/api/';
-  private teamsUrl: string = 'allTeams/';
-  private learnedByTeam: string = 'learnedByTeam/';
-  private toLearnByTeam: string = 'toLearnByTeam/';
+  private teamsUrl: string = 'team/all';
+  private learnedByTeam: string = 'subject/learned/';
+  private toLearnByTeam: string = 'subject/toLearn/';
 
   private httpOptions = new HttpHeaders({
     Authorization: 'Bearer ' + sessionStorage.getItem('user')

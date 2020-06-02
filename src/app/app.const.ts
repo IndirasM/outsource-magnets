@@ -49,6 +49,7 @@ export interface SetGlobalLimitRequestModel {
 }
 
 export interface SetEmployeeLimits {
+  employeeId: number;
   yearLimit: number;
   monthLimit: number;
   rowLimit: number;

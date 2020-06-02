@@ -14,7 +14,7 @@ export class GraphService {
   });
 
   private baseUrl = 'http://localhost:8080';
-  private suggestSubjectUrl = '/api/subject/suggest/';
+  private suggestSubjectUrl = '/api/employeeSubject/add/';
 
   constructor(private httpClient: HttpClient) { }
 
@@ -30,8 +30,8 @@ export class GraphService {
     });
   }
 
-  addSuggestedSubjects(subjectId: string, employees: SetEmployeeSuggestedSubject[]) {
-    return this.httpClient.post<SetEmployeeSuggestedSubject[]>(this.baseUrl + this.suggestSubjectUrl + subjectId, employees, {
+  addSuggestedSubjects(subjectId: string, employees: number[]) {
+    return this.httpClient.post<number[]>(this.baseUrl + this.suggestSubjectUrl + subjectId, {employeeIds: employees} , {
       headers: this.httpOptions
     });
   }

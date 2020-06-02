@@ -5,6 +5,9 @@ import { throwError } from "rxjs";
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import {SetEmployeeSuggestedSubject} from "../../../app.const";
+import {NgxSpinnerService} from "ngx-spinner";
+import {SettingsService} from "../../../settings.service";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: "app-training-details",
@@ -12,16 +15,13 @@ import {SetEmployeeSuggestedSubject} from "../../../app.const";
   styleUrls: ["./training-details.component.scss"],
 })
 export class TrainingDetailsComponent implements OnInit {
-  employees: Employee[] = [
-    {id: 1, name: 'Name 1', checked: false},
-    {id: 2, name: 'Name 2', checked: false},
-    {id: 3, name: 'Name 2', checked: false},
-  ];
+  employees: Employee[] = [];
 
   id: string;
   currentTraining: any;
   loading: boolean = true;
-  addSubjectToEmployees: SetEmployeeSuggestedSubject[] = [];
+  addSubjectToEmployees: number[] = [];
+  userId: number;
 
   displayedColumns: string[] = ['name', 'date'];
   dataSource: MatTableDataSource<any>;
@@ -29,13 +29,17 @@ export class TrainingDetailsComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private graphService: GraphService
+    private graphService: GraphService,
+    private spinner: NgxSpinnerService,
+    private settingsService: SettingsService
   ) {}
 
   ngOnInit(): void {
     this.loading = true;
     this.id = this.route.snapshot.params['id'];
-
+    this.spinner.show();
+    this.fetchEmployees();
+    this.fetchMyId();
     this.graphService.fetchTraining(this.id).subscribe(
       (data: any) => {
         this.currentTraining = data;
@@ -47,13 +51,38 @@ export class TrainingDetailsComponent implements OnInit {
       },
       () => {
         this.loading = false;
+        this.spinner.hide();
       }
     );
-    this.currentTraining = {
-      name: 'asdasd',
-      description: 'asd',
 
-    }
+  }
+
+  fetchEmployees(): void {
+    this.settingsService.getEmployeesLimits().subscribe(
+      resp => {
+        for (const i in resp) {
+          this.employees = [
+            ...this.employees,
+            {id: resp[i].employeeId, name: resp[i].employeeName, checked: false}];
+        }
+      }
+    ),
+      error => {
+        console.log(error.error.message);
+      };
+  }
+
+  fetchMyId(): void {
+    this.settingsService.getUserLimits().subscribe(
+      resp => {
+        this.employees = [
+          ...this.employees,
+          {id: resp.employeeId, name: 'Add objective for yourself', checked: false}];
+      }
+    ),
+      error => {
+        console.log(error.error.message);
+      };
   }
 
   onChangeSelectAll(event) {
@@ -80,11 +109,7 @@ export class TrainingDetailsComponent implements OnInit {
   saveSuggestedSubjects() {
     for (let i in this.employees) {
       if (this.employees[i].checked === true) {
-        this.addSubjectToEmployees = [
-          ...this.addSubjectToEmployees,
-          {
-          id: this.employees[i].id
-        } ];
+        this.addSubjectToEmployees.push(this.employees[i].id);
       }
     }
     console.log(this.addSubjectToEmployees);
@@ -113,7 +138,7 @@ export interface PeriodicElement {
 export interface Employee {
   id: number;
   name: string;
-  checked: boolean
+  checked: boolean;
 }
 
 
