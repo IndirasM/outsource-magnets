@@ -8,6 +8,9 @@ import {SetEmployeeSuggestedSubject} from "../../../app.const";
 import {NgxSpinnerService} from "ngx-spinner";
 import {SettingsService} from "../../../settings.service";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
+import { MatDialog } from '@angular/material/dialog';
+import { AddTrainingComponent } from '../../add-training/add-training.component';
+import { CalendarService } from 'src/app/calendar.service';
 
 @Component({
   selector: "app-training-details",
@@ -31,7 +34,9 @@ export class TrainingDetailsComponent implements OnInit {
     private route: ActivatedRoute,
     private graphService: GraphService,
     private spinner: NgxSpinnerService,
-    private settingsService: SettingsService
+    private settingsService: SettingsService,
+    private dialog: MatDialog,
+    private calendarService: CalendarService
   ) {}
 
   ngOnInit(): void {
@@ -83,6 +88,24 @@ export class TrainingDetailsComponent implements OnInit {
       error => {
         console.log(error.error.message);
       };
+  }
+
+  createLearningDay() {
+    const dialogRef = this.dialog.open(AddTrainingComponent, {
+      data: {
+        learningDay: {
+          subjectId: this.id
+        }
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(formData => {
+      if(formData) {
+        this.calendarService.addLearningDay(formData).subscribe(() => {
+          this.ngOnInit();
+        });
+      }
+    });
   }
 
   onChangeSelectAll(event) {
