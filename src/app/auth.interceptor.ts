@@ -26,6 +26,11 @@ export class AuthInterceptor implements HttpInterceptor {
             duration: 2000,
             panelClass: ['snackbar-background']
           });
+        } else {
+          this.snackBar.open('Bad request!', 'Close', {
+            duration: 2000,
+            panelClass: ['snackbar-background']
+          });
         }
         return of(err);
       })
