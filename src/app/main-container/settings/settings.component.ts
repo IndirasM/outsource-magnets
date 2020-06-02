@@ -141,8 +141,9 @@ export class SettingsComponent implements OnInit {
   }
 
   openSnackBar(): void {
-    this.snackBar.open('Limits saved!', '', {
-      duration: 3000,
+    this.snackBar.open('Limits saved!', 'Close', {
+      duration: 2000,
+      panelClass: ['snackbar-background']
     });
   }
 

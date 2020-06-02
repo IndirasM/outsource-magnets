@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {Observable, of} from 'rxjs';
-import {SetEmployeeSuggestedSubject, SetEmployeeLimits} from "./app.const";
-import {catchError} from "rxjs/operators";
+import {SuggestedSubjects} from "./main-container/add-training/add-training.component";
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +14,7 @@ export class GraphService {
 
   private baseUrl = 'http://localhost:8080';
   private suggestSubjectUrl = '/api/employeeSubject/add/';
+  private getSuggestedSubjectsUrl = '/api/subject/allSuggestedSubjects';
 
   constructor(private httpClient: HttpClient) { }
 
@@ -32,6 +32,12 @@ export class GraphService {
 
   addSuggestedSubjects(subjectId: string, employees: number[]) {
     return this.httpClient.post<number[]>(this.baseUrl + this.suggestSubjectUrl + subjectId, {employeeIds: employees} , {
+      headers: this.httpOptions
+    });
+  }
+
+  fetchSuggestedSubjects(): Observable<SuggestedSubjects[]> {
+    return this.httpClient.get<SuggestedSubjects[]>(this.baseUrl + this.getSuggestedSubjectsUrl, {
       headers: this.httpOptions
     });
   }

@@ -5,6 +5,8 @@ import { throwError } from "rxjs";
 import { MatTableDataSource } from '@angular/material/table';
 import {NgxSpinnerService} from "ngx-spinner";
 import {SettingsService} from "../../../settings.service";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {MatSnackBar} from "@angular/material/snack-bar";
 import { MatDialog } from '@angular/material/dialog';
 import { AddTrainingComponent } from '../../add-training/add-training.component';
 import { CalendarService } from 'src/app/calendar.service';
@@ -38,6 +40,7 @@ export class TrainingDetailsComponent implements OnInit {
     private settingsService: SettingsService,
     private dialog: MatDialog,
     private calendarService: CalendarService,
+    private snackBar: MatSnackBar,
     private subjectService: TopicService,
     private teamsService: TeamsService
   ) {}
@@ -45,7 +48,7 @@ export class TrainingDetailsComponent implements OnInit {
   ngOnInit(): void {
     this.loading = true;
     this.id = this.route.snapshot.params['id'];
-    
+
     this.spinner.show();
     this.fetchEmployees();
     this.fetchMyId();
@@ -171,7 +174,10 @@ export class TrainingDetailsComponent implements OnInit {
     }
     this.graphService.addSuggestedSubjects(this.id, this.addSubjectToEmployees).subscribe(
       (data: any) => {
-        console.log('On success message needs to be added');
+        this.snackBar.open('Subject suggested!', 'Close', {
+          duration: 2000,
+          panelClass: ['snackbar-background']
+        });
       },
       (err) => {
         throwError(err);
@@ -196,4 +202,3 @@ export interface Employee {
   name: string;
   checked: boolean;
 }
-
