@@ -72,4 +72,10 @@ export class CalendarService {
     })
   }
 
+  editLearningDay(id, payload) {
+    return this.httpClient.post(this.baseUrl + this.learningDaysUrl + `edit/${id}`, payload , {
+      headers: this.httpOptions
+    })
+  }
+
 }

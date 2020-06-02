@@ -2,8 +2,8 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { GraphService } from 'src/app/graph.service';
-import {CalendarService} from '../../calendar.service';
 import {LearningDays} from '../../app.const';
+import { CalendarService } from 'src/app/calendar.service';
 
 @Component({
   selector: 'app-add-training',
@@ -65,7 +65,14 @@ export class AddTrainingComponent implements OnInit {
   }
 
   onSubmit() {
-    this.dialogRef.close(this.newTrainingForm.value);
+    if (this.data && this.data.edit) {
+      const id = this.newTrainingForm.value.training.subject.id;
+      const date = this.newTrainingForm.value.training.date;
+      this.calendarService.editLearningDay(this.data.learningDay.learningDayId, { subjectId: id, date }).subscribe(() => {});
+      this.dialogRef.close(true);
+    } else {
+      this.dialogRef.close(this.newTrainingForm.value);
+    }
   }
 
   getSuggestedSubjects() {
