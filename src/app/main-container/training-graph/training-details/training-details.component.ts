@@ -11,6 +11,9 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import { MatDialog } from '@angular/material/dialog';
 import { AddTrainingComponent } from '../../add-training/add-training.component';
 import { CalendarService } from 'src/app/calendar.service';
+import { TopicService } from 'src/app/topic.service';
+import { TrainingDayComponent } from '../../training-calendar/training-day/training-day.component';
+import { TeamsService } from 'src/app/teams.service';
 
 @Component({
   selector: "app-training-details",
@@ -25,9 +28,11 @@ export class TrainingDetailsComponent implements OnInit {
   loading: boolean = true;
   addSubjectToEmployees: number[] = [];
   userId: number;
+  comments;
 
-  displayedColumns: string[] = ['name', 'date'];
+  displayedColumns: string[] = ['employeeName', 'date'];
   dataSource: MatTableDataSource<any>;
+  teamsDataSource: MatTableDataSource<any>;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
   constructor(
@@ -36,8 +41,13 @@ export class TrainingDetailsComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private settingsService: SettingsService,
     private dialog: MatDialog,
-    private calendarService: CalendarService
+    private calendarService: CalendarService,
+    private subjectService: TopicService,
+    private teamsService: TeamsService
   ) {}
+
+  
+
 
   ngOnInit(): void {
     this.loading = true;
@@ -48,8 +58,21 @@ export class TrainingDetailsComponent implements OnInit {
     this.graphService.fetchTraining(this.id).subscribe(
       (data: any) => {
         this.currentTraining = data;
-        this.dataSource = new MatTableDataSource<any>(ELEMENT_DATA);
-        this.dataSource.paginator = this.paginator;
+        this.subjectService.getLearningDaysBySubject(this.id).subscribe((days: any) => {
+          this.teamsService.getAllTeams().subscribe(teams => {
+            console.log(teams);
+            this.teamsDataSource = new MatTableDataSource<any>(days);
+          });
+          this.dataSource = new MatTableDataSource<any>(days);
+          this.dataSource.paginator = this.paginator;
+          this.comments = [];
+          days.forEach(day => {
+            this.comments.push({
+              name: day.employeeName,
+              text: day.notes
+            })
+          });
+        });
       },
       (err) => {
         throwError(err);
@@ -135,7 +158,6 @@ export class TrainingDetailsComponent implements OnInit {
         this.addSubjectToEmployees.push(this.employees[i].id);
       }
     }
-    console.log(this.addSubjectToEmployees);
     this.graphService.addSuggestedSubjects(this.id, this.addSubjectToEmployees).subscribe(
       (data: any) => {
         console.log('On success message needs to be added');
@@ -164,27 +186,3 @@ export interface Employee {
   checked: boolean;
 }
 
-
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 1, name: 'Hydrogen', date: 1.0079, symbol: 'H'},
-  {position: 2, name: 'Helium', date: 4.0026, symbol: 'He'},
-  {position: 3, name: 'Lithium', date: 6.941, symbol: 'Li'},
-  {position: 4, name: 'Beryllium', date: 9.0122, symbol: 'Be'},
-  {position: 5, name: 'Boron', date: 10.811, symbol: 'B'},
-  {position: 6, name: 'Carbon', date: 12.0107, symbol: 'C'},
-  {position: 7, name: 'Nitrogen', date: 14.0067, symbol: 'N'},
-  {position: 8, name: 'Oxygen', date: 15.9994, symbol: 'O'},
-  {position: 9, name: 'Fluorine', date: 18.9984, symbol: 'F'},
-  {position: 10, name: 'Neon', date: 20.1797, symbol: 'Ne'},
-  {position: 11, name: 'Sodium', date: 22.9897, symbol: 'Na'},
-  {position: 12, name: 'Magnesium', date: 24.305, symbol: 'Mg'},
-  {position: 13, name: 'Aluminum', date: 26.9815, symbol: 'Al'},
-  {position: 14, name: 'Silicon', date: 28.0855, symbol: 'Si'},
-  {position: 15, name: 'Phosphorus', date: 30.9738, symbol: 'P'},
-  {position: 16, name: 'Sulfur', date: 32.065, symbol: 'S'},
-  {position: 17, name: 'Chlorine', date: 35.453, symbol: 'Cl'},
-  {position: 18, name: 'Argon', date: 39.948, symbol: 'Ar'},
-  {position: 19, name: 'Potassium', date: 39.0983, symbol: 'K'},
-  {position: 20, name: 'Calcium', date: 40.078, symbol: 'Ca'},
-];
