@@ -1,18 +1,14 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, OnInit, ViewChild, ViewChildren } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { GraphService } from "src/app/graph.service";
 import { throwError } from "rxjs";
 import { MatTableDataSource } from '@angular/material/table';
-import { MatPaginator } from '@angular/material/paginator';
-import {SetEmployeeSuggestedSubject} from "../../../app.const";
 import {NgxSpinnerService} from "ngx-spinner";
 import {SettingsService} from "../../../settings.service";
-import {FormControl, FormGroup, Validators} from "@angular/forms";
 import { MatDialog } from '@angular/material/dialog';
 import { AddTrainingComponent } from '../../add-training/add-training.component';
 import { CalendarService } from 'src/app/calendar.service';
 import { TopicService } from 'src/app/topic.service';
-import { TrainingDayComponent } from '../../training-calendar/training-day/training-day.component';
 import { TeamsService } from 'src/app/teams.service';
 
 @Component({
@@ -31,9 +27,9 @@ export class TrainingDetailsComponent implements OnInit {
   comments;
 
   displayedColumns: string[] = ['employeeName', 'date'];
+  displayedTeamColumns: string[] = ['name', 'learnees'];
   dataSource: MatTableDataSource<any>;
   teamsDataSource: MatTableDataSource<any>;
-  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
   constructor(
     private route: ActivatedRoute,
@@ -46,12 +42,10 @@ export class TrainingDetailsComponent implements OnInit {
     private teamsService: TeamsService
   ) {}
 
-  
-
-
   ngOnInit(): void {
     this.loading = true;
     this.id = this.route.snapshot.params['id'];
+    
     this.spinner.show();
     this.fetchEmployees();
     this.fetchMyId();
@@ -60,11 +54,10 @@ export class TrainingDetailsComponent implements OnInit {
         this.currentTraining = data;
         this.subjectService.getLearningDaysBySubject(this.id).subscribe((days: any) => {
           this.teamsService.getAllTeams().subscribe(teams => {
-            console.log(teams);
-            this.teamsDataSource = new MatTableDataSource<any>(days);
+            const mappedTeams = this.mapTeams(teams, days);
+            this.teamsDataSource = new MatTableDataSource<any>(mappedTeams.filter(team => team.learnees !== 0));
           });
           this.dataSource = new MatTableDataSource<any>(days);
-          this.dataSource.paginator = this.paginator;
           this.comments = [];
           days.forEach(day => {
             this.comments.push({
@@ -83,6 +76,24 @@ export class TrainingDetailsComponent implements OnInit {
       }
     );
 
+  }
+
+  mapTeams(teams, days) {
+    const mappedTeams = teams.map(team => {
+      return {
+        ...team,
+        learnees: this.calcLearned(team.teamId, days)
+      }
+    });
+    return mappedTeams;
+  }
+
+  calcLearned(teamId, days) {
+    let count = 0;
+    days.forEach(day => {
+      if(day.teamId === teamId) count++;
+    })
+    return count;
   }
 
   fetchEmployees(): void {
