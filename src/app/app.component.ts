@@ -33,5 +33,6 @@ export class AppComponent implements OnInit {
   logOut() {
     this.isLoggedIn = false;
     sessionStorage.removeItem('user');
+    location.reload();
   }
 }
